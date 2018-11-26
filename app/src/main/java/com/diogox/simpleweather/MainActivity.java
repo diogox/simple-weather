@@ -10,9 +10,11 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+
+import com.bumptech.glide.Glide;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -26,7 +28,9 @@ public class MainActivity extends AppCompatActivity
     @BindView(R.id.drawer_layout) DrawerLayout mDrawer;
     @BindView(R.id.left_drawer) NavigationView mLeftDrawer;
     @BindView(R.id.right_drawer) NavigationView mRightDrawer;
-    @BindView(R.id.cities_drawer_btn) Button mRightDrawerBtn;
+    @BindView(R.id.cities_drawer_btn) ImageButton mRightDrawerBtn;
+    @BindView(R.id.menu_btn) ImageButton mMenuBtn;
+    @BindView(R.id.city_img) ImageView mCityImg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,11 +50,13 @@ public class MainActivity extends AppCompatActivity
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, mDrawer, mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        mDrawer.addDrawerListener(toggle);
-        toggle.syncState();
+        toggle.setDrawerIndicatorEnabled(false);
 
         mLeftDrawer.setNavigationItemSelectedListener(this);
         mRightDrawer.setNavigationItemSelectedListener(this);
+        Glide.with(this)
+                .load("http://www.expressofelgueiras.com/wp-content/uploads/2016/05/Cidade-de-Felgueiras-.jpg")
+                .into(mCityImg);
     }
 
     @Override
@@ -90,6 +96,11 @@ public class MainActivity extends AppCompatActivity
 
         mDrawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @OnClick(R.id.menu_btn)
+    public void onClickMenuBtn() {
+        mDrawer.openDrawer(GravityCompat.START);
     }
 
     @OnClick(R.id.cities_drawer_btn)
