@@ -14,18 +14,29 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    @BindView(R.id.toolbar) Toolbar mToolbar;
+    @BindView(R.id.fab) FloatingActionButton mFab;
+    @BindView(R.id.drawer_layout) DrawerLayout mDrawer;
+    @BindView(R.id.left_drawer) NavigationView mLeftDrawer;
+    @BindView(R.id.right_drawer) NavigationView mRightDrawer;
+    @BindView(R.id.cities_drawer_btn) Button mRightDrawerBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        ButterKnife.bind(this);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        setSupportActionBar(mToolbar);
+
+        mFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
@@ -33,39 +44,25 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
+                this, mDrawer, mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        mDrawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        Button rightBtn = (Button) findViewById(R.id.cities_drawer_btn);
-        rightBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-                drawer.openDrawer(GravityCompat.END);
-            }
-        });
-
-        NavigationView leftNavigationView = (NavigationView) findViewById(R.id.left_drawer);
-        NavigationView rightNavigationView = (NavigationView) findViewById(R.id.left_drawer);
-
-        leftNavigationView.setNavigationItemSelectedListener(this);
-        rightNavigationView.setNavigationItemSelectedListener(this);
+        mLeftDrawer.setNavigationItemSelectedListener(this);
+        mRightDrawer.setNavigationItemSelectedListener(this);
     }
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
+        if (mDrawer.isDrawerOpen(GravityCompat.START)) {
 
             // Close left drawer
-            drawer.closeDrawer(GravityCompat.START);
-        } else if (drawer.isDrawerOpen(GravityCompat.END)) {
+            mDrawer.closeDrawer(GravityCompat.START);
+        } else if (mDrawer.isDrawerOpen(GravityCompat.END)) {
 
             // Close right drawer
-            drawer.closeDrawer(GravityCompat.END);
+            mDrawer.closeDrawer(GravityCompat.END);
         } else {
             super.onBackPressed();
         }
@@ -113,8 +110,12 @@ public class MainActivity extends AppCompatActivity
 
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
+        mDrawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @OnClick(R.id.cities_drawer_btn)
+    public void onClickCitiesBtn() {
+        mDrawer.openDrawer(GravityCompat.END);
     }
 }
