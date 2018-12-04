@@ -3,6 +3,7 @@ package com.diogox.simpleweather;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -13,8 +14,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.diogox.simpleweather.MenuLeft.Fragments.HomeFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -30,7 +33,6 @@ public class MainActivity extends AppCompatActivity
     @BindView(R.id.right_drawer) NavigationView mRightDrawer;
     @BindView(R.id.cities_drawer_btn) ImageButton mRightDrawerBtn;
     @BindView(R.id.menu_btn) ImageButton mMenuBtn;
-    @BindView(R.id.city_img) ImageView mCityImg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,9 +56,14 @@ public class MainActivity extends AppCompatActivity
 
         mLeftDrawer.setNavigationItemSelectedListener(this);
         mRightDrawer.setNavigationItemSelectedListener(this);
-        Glide.with(this)
-                .load("http://www.expressofelgueiras.com/wp-content/uploads/2016/05/Cidade-de-Felgueiras-.jpg")
-                .into(mCityImg);
+
+
+        HomeFragment homeFragment = new HomeFragment();
+
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.add(R.id.fragment_container, homeFragment);
+        fragmentTransaction.commit();
+
     }
 
     @Override
@@ -80,8 +87,18 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+
+        if (id == R.id.nav_home) {
+
+            HomeFragment homeFragment = new HomeFragment();
+            fragmentTransaction.replace(R.id.fragment_container, homeFragment);
+            fragmentTransaction.commit();
+
+        }else if (id == R.id.nav_camera) {
+
+            Toast.makeText(this, "camera", Toast.LENGTH_SHORT).show();
+
         } else if (id == R.id.nav_gallery) {
 
         } else if (id == R.id.nav_slideshow) {
