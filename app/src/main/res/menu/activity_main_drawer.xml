@@ -3,32 +3,24 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
 
-    <item android:title="My app">
-        <menu>
-            <item
-                android:id="@+id/nav_home"
-                android:icon="@drawable/ic_menu_slideshow"
-                android:title="HOME"/>
-        </menu>
-    </item>
-    <item android:title="Navigation">
+    <item android:title="Navegação">
         <menu>
             <item
                 android:id="@+id/nav_camera"
-                android:icon="@drawable/ic_menu_camera"
-                android:title="Import" />
+                android:icon="@drawable/ic_baseline_home_24px"
+                android:title="Principal" />
             <item
                 android:id="@+id/nav_gallery"
-                android:icon="@drawable/ic_menu_gallery"
-                android:title="Gallery" />
+                android:icon="@drawable/ic_baseline_map_24px"
+                android:title="Mapa" />
             <item
                 android:id="@+id/nav_slideshow"
-                android:icon="@drawable/ic_menu_slideshow"
-                android:title="Slideshow" />
+                android:icon="@drawable/ic_baseline_notification_important_24px"
+                android:title="Alertas" />
             <item
                 android:id="@+id/nav_manage"
                 android:icon="@drawable/ic_menu_manage"
-                android:title="Tools" />
+                android:title="Definições" />
         </menu>
     </item>
 
