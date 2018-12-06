@@ -1,5 +1,6 @@
 package com.diogox.simpleweather;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -17,7 +18,9 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.diogox.simpleweather.MenuLeft.Fragments.AlertFragment;
 import com.diogox.simpleweather.MenuLeft.Fragments.HomeFragment;
+import com.diogox.simpleweather.MenuLeft.Fragments.MapFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -89,25 +92,36 @@ public class MainActivity extends AppCompatActivity
 
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
 
-        if (id == R.id.nav_home) {
+        if (id == R.id.nav_principal) { // Home
 
             HomeFragment homeFragment = new HomeFragment();
             fragmentTransaction.replace(R.id.fragment_container, homeFragment);
             fragmentTransaction.commit();
 
-        }else if (id == R.id.nav_camera) {
+        }else if (id == R.id.nav_map) { // Map
 
-            Toast.makeText(this, "camera", Toast.LENGTH_SHORT).show();
+            MapFragment mapFragment = new MapFragment();
+            fragmentTransaction.replace(R.id.fragment_container, mapFragment);
+            fragmentTransaction.commit();
 
-        } else if (id == R.id.nav_gallery) {
+        } else if (id == R.id.nav_alert) { // Alerts
 
-        } else if (id == R.id.nav_slideshow) {
+            AlertFragment alertFragment = new AlertFragment();
+            fragmentTransaction.replace(R.id.fragment_container, alertFragment);
+            fragmentTransaction.commit();
 
-        } else if (id == R.id.nav_manage) {
+        } else if (id == R.id.nav_settings) { // Settings activity
+
+            Intent intent = new Intent(this, SettingsActivity.class);
+            startActivity(intent);
 
         } else if (id == R.id.nav_share) {
 
+            Toast.makeText(this, "Share", Toast.LENGTH_SHORT).show();
+
         } else if (id == R.id.nav_send) {
+
+            Toast.makeText(this, "Send", Toast.LENGTH_SHORT).show();
 
         }
 

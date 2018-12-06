@@ -6,19 +6,19 @@
     <item android:title="Navegação">
         <menu>
             <item
-                android:id="@+id/nav_camera"
+                android:id="@+id/nav_principal"
                 android:icon="@drawable/ic_baseline_home_24px"
                 android:title="Principal" />
             <item
-                android:id="@+id/nav_gallery"
+                android:id="@+id/nav_map"
                 android:icon="@drawable/ic_baseline_map_24px"
                 android:title="Mapa" />
             <item
-                android:id="@+id/nav_slideshow"
+                android:id="@+id/nav_alert"
                 android:icon="@drawable/ic_baseline_notification_important_24px"
                 android:title="Alertas" />
             <item
-                android:id="@+id/nav_manage"
+                android:id="@+id/nav_settings"
                 android:icon="@drawable/ic_menu_manage"
                 android:title="Definições" />
         </menu>

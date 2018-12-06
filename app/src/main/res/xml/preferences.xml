@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <ListPreference
+        android:defaultValue="C"
+        android:entries="@array/pref_screen_temp"
+        android:entryValues="@array/pref_screen_temp_values"
+        android:key="si_temperature"
+        android:summary="Unidade de medida da temperatura"
+        android:title="Temperatura"/>
+
+    <ListPreference
+        android:defaultValue="kmh"
+        android:entries="@array/pref_screen_velocity"
+        android:entryValues="@array/pref_screen_velocity_values"
+        android:key="si_velocity"
+        android:summary="Unidade de medida da da velocidade do vento"
+        android:title="Velocidade do vento"/>
+
+</PreferenceScreen>

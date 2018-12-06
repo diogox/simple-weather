@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="pref_screen_temp">
+
+        <item>Celcius (ºC)</item>
+        <item>Fahrenheit (ºF)</item>
+
+    </string-array>
+
+    <string-array name="pref_screen_temp_values">
+
+        <item>C</item>
+        <item>F</item>
+
+    </string-array>
+
+    <string-array name="pref_screen_velocity">
+
+        <item>Km/h</item>
+        <item>m/s</item>
+
+    </string-array>
+
+    <string-array name="pref_screen_velocity_values">
+
+        <item>kmh</item>
+        <item>ms</item>
+
+    </string-array>
+
+</resources>
