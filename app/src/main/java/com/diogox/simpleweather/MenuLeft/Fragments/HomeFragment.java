@@ -2,8 +2,6 @@ package com.diogox.simpleweather.MenuLeft.Fragments;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,7 +25,7 @@ public class HomeFragment extends Fragment {
     @BindView(R.id.cityCurrentWeatherIcon) ImageView mCityCurrentWeatherIcon;
     @BindView(R.id.cityCurrentWeatherValue) TextView mcityCurrentWeather;
     @BindView(R.id.cityLowTemperatureValue) TextView mCityLowTemperature;
-    @BindView(R.id.cityHighTemperatureValue) ImageView mCityHighTemperature;
+    @BindView(R.id.cityHighTemperatureValue) TextView mCityHighTemperature;
     @BindView(R.id.citySunsetCountdown) TextView mCitySunsetCountdown;
     @BindView(R.id.citySunriseCountdown) TextView mCitySunriseCountdown;
     @BindView(R.id.cityPressureValue) TextView mCityPressure;
