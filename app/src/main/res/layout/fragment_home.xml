@@ -8,7 +8,7 @@
     <ImageView
         android:id="@+id/city_img"
         android:layout_width="0dp"
-        android:layout_height="170dp"
+        android:layout_height="200dp"
         android:scaleType="centerCrop"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -30,7 +30,7 @@
         app:layout_constraintTop_toBottomOf="@+id/city_img">
 
         <ImageView
-            android:id="@+id/imageView2"
+            android:id="@+id/cityCurrentWeatherIcon"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:tint="@android:color/holo_orange_light"
@@ -39,7 +39,7 @@
             tools:layout_editor_absoluteY="187dp" />
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/cityCurrentWeatherValue"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginLeft="12dp"
@@ -62,7 +62,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/city_img">
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        app:layout_constraintVertical_bias="0.19999999">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -71,21 +72,20 @@
 
             <LinearLayout
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:baselineAligned="false"
                 android:gravity="right"
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:id="@+id/imageView3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:tint="@android:color/holo_red_dark"
-                    app:srcCompat="@drawable/ic_thermometer_50" />
+                    android:tint="@android:color/holo_red_light"
+                    app:srcCompat="@drawable/ic_thermometer_25" />
 
                 <TextView
-                    android:id="@+id/textView3"
+                    android:id="@+id/cityLowTemperatureValue"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="4dp"
@@ -95,7 +95,6 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/textView4"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="2dp"
@@ -103,19 +102,24 @@
                     android:gravity="center_vertical"
                     android:text="ºC" />
 
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="32dp"
+                android:layout_weight="1"
+                android:baselineAligned="false"
+                android:orientation="horizontal">
+
                 <ImageView
-                    android:id="@+id/imageView4"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="1dp"
-                    android:layout_marginRight="1dp"
-                    android:layout_weight="0"
-                    android:scaleX="0.50"
-                    android:scaleY="0.50"
-                    app:srcCompat="@drawable/ic_arrow" />
+                    android:layout_height="wrap_content"
+                    android:tint="@android:color/holo_red_dark"
+                    app:srcCompat="@drawable/ic_thermometer_100" />
 
                 <TextView
-                    android:id="@+id/textView5"
+                    android:id="@+id/cityHighTemperatureValue"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="0"
@@ -125,7 +129,6 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/textView6"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="2dp"
@@ -135,103 +138,22 @@
 
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="32dp"
-                android:layout_weight="1"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:id="@+id/imageView5"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0"
-                    android:tint="@android:color/holo_orange_light"
-                    app:srcCompat="@drawable/ic_sun_rise" />
-
-                <TextView
-                    android:id="@+id/textView7"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="8dp"
-                    android:layout_weight="0"
-                    android:gravity="center_vertical"
-                    android:text="Em " />
-
-                <TextView
-                    android:id="@+id/textView8"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0"
-                    android:gravity="center_vertical"
-                    android:text="18"
-                    android:textColor="@android:color/black"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/textView9"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="2dp"
-                    android:layout_weight="0"
-                    android:gravity="center_vertical"
-                    android:text="h" />
-            </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="20dp"
             android:orientation="horizontal">
 
             <LinearLayout
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:baselineAligned="false"
                 android:gravity="right"
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:id="@+id/imageView6"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0"
-                    android:tint="#99B8DC"
-                    app:srcCompat="@drawable/ic_wind" />
-
-                <TextView
-                    android:id="@+id/textView3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="4dp"
-                    android:gravity="center_vertical"
-                    android:text="1.32"
-                    android:textColor="@android:color/black"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/textView4"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="2dp"
-                    android:layout_weight="0"
-                    android:gravity="center_vertical"
-                    android:text="m/s" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="32dp"
-                android:layout_weight="1"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:id="@+id/imageView7"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="0"
@@ -239,7 +161,6 @@
                     app:srcCompat="@drawable/ic_sun_set" />
 
                 <TextView
-                    android:id="@+id/textView7"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="8dp"
@@ -248,7 +169,7 @@
                     android:text="Em " />
 
                 <TextView
-                    android:id="@+id/textView8"
+                    android:id="@+id/citySunsetCountdown"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="0"
@@ -258,7 +179,6 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/textView9"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="2dp"
@@ -266,20 +186,179 @@
                     android:gravity="center_vertical"
                     android:text="h" />
             </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="32dp"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0"
+                    android:tint="@android:color/holo_orange_light"
+                    app:srcCompat="@drawable/ic_sun_rise" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="8dp"
+                    android:layout_weight="0"
+                    android:gravity="center_vertical"
+                    android:text="Em " />
+
+                <TextView
+                    android:id="@+id/citySunriseCountdown"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0"
+                    android:gravity="center_vertical"
+                    android:text="18"
+                    android:textColor="@android:color/black"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="2dp"
+                    android:layout_weight="0"
+                    android:gravity="center_vertical"
+                    android:text="h" />
+            </LinearLayout>
+
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="16dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
             android:orientation="horizontal">
 
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:baselineAligned="false"
                 android:gravity="right"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0"
+                    android:tint="@android:color/holo_blue_dark"
+                    app:srcCompat="@drawable/ic_8aebcc5b257ce2ac0e1af78e9ad02d41" />
+
+                <TextView
+                    android:id="@+id/cityPressureValue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_weight="0"
+                    android:gravity="center_vertical"
+                    android:text="1007"
+                    android:textColor="@android:color/black"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/textView9"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginStart="2dp"
+                    android:layout_weight="0"
+                    android:gravity="center_vertical"
+                    android:text="hpa" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="32dp"
+                android:layout_marginStart="32dp"
+                android:layout_weight="1"
+                android:baselineAligned="false"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0"
+                    android:tint="#99B8DC"
+                    app:srcCompat="@drawable/ic_wind" />
+
+                <TextView
+                    android:id="@+id/cityWindValue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginLeft="4dp"
+                    android:gravity="center_vertical"
+                    android:text="1.32"
+                    android:textColor="@android:color/black"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginStart="2dp"
+                    android:layout_weight="0"
+                    android:gravity="center_vertical"
+                    android:text="m/s" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="20dp"
+            android:baselineAligned="false"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="end"
+                android:orientation="horizontal">
+
+                <ImageButton
+                    android:id="@+id/cityMapBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_weight="0"
+                    android:background="@null"
+                    android:scaleX="0.80"
+                    android:scaleY="0.80"
+                    app:srcCompat="@drawable/ic_f172aa3c3f8399678e63b0616b911cfc" />
+
+                <ImageButton
+                    android:id="@+id/alertCityBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_weight="0"
+                    android:background="@null"
+                    android:scaleX="0.8"
+                    android:scaleY="0.8"
+                    app:srcCompat="@drawable/ic_notification" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="32dp"
+                android:layout_marginStart="32dp"
+                android:layout_weight="1"
+                android:baselineAligned="false"
                 android:orientation="horizontal">
 
                 <ImageView
@@ -291,7 +370,7 @@
                     app:srcCompat="@drawable/ic_humidity" />
 
                 <TextView
-                    android:id="@+id/textView3"
+                    android:id="@+id/cityHumidityValue"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="4dp"
@@ -301,7 +380,6 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/textView4"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="2dp"
@@ -311,36 +389,35 @@
 
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="32dp"
-                android:layout_weight="1"
-                android:orientation="horizontal">
-
-                <ImageButton
-                    android:id="@+id/imageButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="8dp"
-                    android:layout_weight="0"
-                    android:background="@null"
-                    android:scaleX="0.80"
-                    android:scaleY="0.80"
-                    app:srcCompat="@drawable/ic_f172aa3c3f8399678e63b0616b911cfc" />
-
-                <ImageButton
-                    android:id="@+id/imageButton2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="8dp"
-                    android:layout_weight="0"
-                    android:background="@null"
-                    android:scaleX="0.8"
-                    android:scaleY="0.8"
-                    app:srcCompat="@drawable/ic_notification" />
-            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
+
+    <com.xw.repo.BubbleSeekBar
+        android:id="@+id/cityInfoTimeBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="64dp"
+        android:layout_marginLeft="64dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="64dp"
+        android:layout_marginRight="64dp"
+        android:layout_marginBottom="32dp"
+        app:bsb_bubble_color="@android:color/holo_orange_dark"
+        app:bsb_bubble_text_color="@color/colorPrimaryDark"
+        app:bsb_max="23"
+        app:bsb_min="0"
+        app:bsb_progress="0"
+        app:bsb_second_track_color="@android:color/holo_orange_light"
+        app:bsb_section_count="23"
+        app:bsb_section_text_position="bottom_sides"
+        app:bsb_seek_step_section="true"
+        app:bsb_show_section_text="true"
+        app:bsb_show_thumb_text="true"
+        app:bsb_touch_to_seek="true"
+        app:bsb_track_color="@android:color/holo_orange_light"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
 
 </android.support.constraint.ConstraintLayout>
