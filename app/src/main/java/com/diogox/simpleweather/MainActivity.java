@@ -5,6 +5,9 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -18,9 +21,14 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.diogox.simpleweather.Api.Models.Database.Cities.City;
 import com.diogox.simpleweather.MenuLeft.Fragments.AlertFragment;
 import com.diogox.simpleweather.MenuLeft.Fragments.HomeFragment;
 import com.diogox.simpleweather.MenuLeft.Fragments.MapFragment;
+import com.diogox.simpleweather.MenuRight.DrawerCityAdapter;
+
+import java.util.LinkedList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -36,6 +44,9 @@ public class MainActivity extends AppCompatActivity
     @BindView(R.id.right_drawer) NavigationView mRightDrawer;
     @BindView(R.id.cities_drawer_btn) ImageButton mRightDrawerBtn;
     @BindView(R.id.menu_btn) ImageButton mMenuBtn;
+
+    private List<City> cityList = new LinkedList<>();
+    private DrawerCityAdapter cityAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,12 +71,34 @@ public class MainActivity extends AppCompatActivity
         mLeftDrawer.setNavigationItemSelectedListener(this);
         mRightDrawer.setNavigationItemSelectedListener(this);
 
+        View drawerRight = mRightDrawer.getHeaderView(0);
+
+        cityAdapter = new DrawerCityAdapter(mRightDrawer.getContext(), cityList);
+        RecyclerView recyclerView = findViewById(R.id.drawerCityList);
+        recyclerView.setAdapter(cityAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(mRightDrawer.getContext()));
+
+        RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(mRightDrawer.getContext(), DividerItemDecoration.VERTICAL);
+        recyclerView.addItemDecoration(itemDecoration);
+
+        getCities();
 
         HomeFragment homeFragment = new HomeFragment();
 
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.add(R.id.fragment_container, homeFragment);
         fragmentTransaction.commit();
+
+    }
+
+    private void getCities() {
+
+        City[] cities = City.populateData();
+
+        for (int i = 0; i < cities.length; i++) {
+            cityList.add(cities[i]);
+            cityAdapter.notifyItemInserted(i);
+        }
 
     }
 
