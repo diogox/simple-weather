@@ -24,7 +24,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.diogox.simpleweather.Api.Models.Database.Cities.City;
 import com.diogox.simpleweather.MenuLeft.Fragments.AlertFragment;
-import com.diogox.simpleweather.MenuLeft.Fragments.HomeFragment;
+import com.diogox.simpleweather.MenuLeft.Fragments.CityViewFragment;
 import com.diogox.simpleweather.MenuLeft.Fragments.MapFragment;
 import com.diogox.simpleweather.MenuRight.CityViewModel;
 import com.diogox.simpleweather.MenuRight.DrawerCityAdapter;
@@ -84,7 +84,7 @@ public class MainActivity extends AppCompatActivity
         RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(mRightDrawer.getContext(), DividerItemDecoration.VERTICAL);
         recyclerView.addItemDecoration(itemDecoration);
 
-        HomeFragment homeFragment = new HomeFragment();
+        CityViewFragment homeFragment = new CityViewFragment();
 
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.add(R.id.fragment_container, homeFragment);
@@ -123,7 +123,7 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_principal) { // Home
 
-            HomeFragment homeFragment = new HomeFragment();
+            CityViewFragment homeFragment = new CityViewFragment();
             fragmentTransaction.replace(R.id.fragment_container, homeFragment);
             fragmentTransaction.commit();
 

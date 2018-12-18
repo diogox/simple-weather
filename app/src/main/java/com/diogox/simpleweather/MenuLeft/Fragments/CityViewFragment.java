@@ -17,7 +17,7 @@ import com.xw.repo.BubbleSeekBar;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class HomeFragment extends Fragment {
+public class CityViewFragment extends Fragment {
 
     private Context context;
     private String mCityName;
