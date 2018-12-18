@@ -1,7 +1,6 @@
 package com.diogox.simpleweather.MenuRight;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,6 +36,10 @@ public class DrawerCityAdapter extends RecyclerView.Adapter<DrawerCityAdapter.Dr
 
     }
 
+    public void setData(List<City> newData) {
+        this.cityList = newData;
+        notifyDataSetChanged();
+    }
 
     @Override
     public DrawerCityViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {

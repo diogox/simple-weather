@@ -13,7 +13,7 @@ import com.diogox.simpleweather.Api.Models.Database.Cities.CityDAO;
 import java.util.concurrent.Executors;
 
 @Database(entities = {City.class}, version = 1)
-public abstract class AppDb extends RoomDatabase { // TODO: FInish this!!!
+public abstract class AppDb extends RoomDatabase {
     private static AppDb INSTANCE;
 
     public abstract CityDAO cityDAO();
@@ -36,6 +36,7 @@ public abstract class AppDb extends RoomDatabase { // TODO: FInish this!!!
                         });
                     }
                 })
+                .allowMainThreadQueries()
                 .build();
         }
         return INSTANCE;

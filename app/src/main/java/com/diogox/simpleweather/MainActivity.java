@@ -1,5 +1,6 @@
 package com.diogox.simpleweather;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -25,6 +26,7 @@ import com.diogox.simpleweather.Api.Models.Database.Cities.City;
 import com.diogox.simpleweather.MenuLeft.Fragments.AlertFragment;
 import com.diogox.simpleweather.MenuLeft.Fragments.HomeFragment;
 import com.diogox.simpleweather.MenuLeft.Fragments.MapFragment;
+import com.diogox.simpleweather.MenuRight.CityViewModel;
 import com.diogox.simpleweather.MenuRight.DrawerCityAdapter;
 
 import java.util.LinkedList;
@@ -44,6 +46,7 @@ public class MainActivity extends AppCompatActivity
     @BindView(R.id.right_drawer) NavigationView mRightDrawer;
     @BindView(R.id.cities_drawer_btn) ImageButton mRightDrawerBtn;
     @BindView(R.id.menu_btn) ImageButton mMenuBtn;
+    private CityViewModel mCityViewModel;
 
     private List<City> cityList = new LinkedList<>();
     private DrawerCityAdapter cityAdapter;
@@ -81,24 +84,17 @@ public class MainActivity extends AppCompatActivity
         RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(mRightDrawer.getContext(), DividerItemDecoration.VERTICAL);
         recyclerView.addItemDecoration(itemDecoration);
 
-        getCities();
-
         HomeFragment homeFragment = new HomeFragment();
 
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.add(R.id.fragment_container, homeFragment);
         fragmentTransaction.commit();
 
-    }
+        // Cities view model
+        mCityViewModel = ViewModelProviders.of(this).get(CityViewModel.class);
 
-    private void getCities() {
-
-        City[] cities = City.populateData();
-
-        for (int i = 0; i < cities.length; i++) {
-            cityList.add(cities[i]);
-            cityAdapter.notifyItemInserted(i);
-        }
+        // Listen for changes
+        mCityViewModel.getAllCities().observe(this, cities -> cityAdapter.setData(cities));
 
     }
 

@@ -3,6 +3,9 @@ package com.diogox.simpleweather.Api.Models.Database.Cities;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 
+import java.util.Arrays;
+import java.util.List;
+
 @Entity
 public class City {
     private @PrimaryKey long id;
@@ -49,11 +52,11 @@ public class City {
         isFavorite = favorite;
     }
 
-    public static City[] populateData() {
-        return new City[] {
+    public static List<City> populateData() {
+        return Arrays.asList(new City[]{
                 new City(12341234, "Felgueiras", "PT"),
                 new City(12341235, "Gondomar", "PT"),
                 new City(12341236, "Gondomar", "ES"),
-        };
+        });
     }
 }
