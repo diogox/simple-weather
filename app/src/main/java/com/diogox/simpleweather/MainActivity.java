@@ -26,6 +26,7 @@ import com.diogox.simpleweather.Api.Models.Database.Cities.City;
 import com.diogox.simpleweather.MenuLeft.Fragments.AlertFragment;
 import com.diogox.simpleweather.MenuLeft.Fragments.CityViewFragment;
 import com.diogox.simpleweather.MenuLeft.Fragments.MapFragment;
+import com.diogox.simpleweather.MenuLeft.Location.GPSLocation;
 import com.diogox.simpleweather.MenuRight.CityViewModel;
 import com.diogox.simpleweather.MenuRight.DrawerCityAdapter;
 
@@ -46,6 +47,7 @@ public class MainActivity extends AppCompatActivity
     @BindView(R.id.right_drawer) NavigationView mRightDrawer;
     @BindView(R.id.cities_drawer_btn) ImageButton mRightDrawerBtn;
     @BindView(R.id.menu_btn) ImageButton mMenuBtn;
+
     private CityViewModel mCityViewModel;
 
     private List<City> cityList = new LinkedList<>();
