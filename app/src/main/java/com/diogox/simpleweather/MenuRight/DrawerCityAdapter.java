@@ -1,39 +1,62 @@
 package com.diogox.simpleweather.MenuRight;
 
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.diogox.simpleweather.Api.Models.Database.Cities.City;
+import com.diogox.simpleweather.MainActivity;
 import com.diogox.simpleweather.R;
 
 import java.util.List;
 
+import butterknife.ButterKnife;
+import butterknife.BindView;
+import butterknife.OnClick;
+
 public class DrawerCityAdapter extends RecyclerView.Adapter<DrawerCityAdapter.DrawerCityViewHolder> {
 
-
     public Context context;
-    public List<City> cityList;
+    private List<City> cityList;
+    private ItemClickListener onItemClickListener;
 
-    public DrawerCityAdapter(Context context, List<City> cityList) {
+    public DrawerCityAdapter(Context context, List<City> cityList, ItemClickListener onItemClickListener) {
         this.context = context;
         this.cityList = cityList;
+        this.onItemClickListener = onItemClickListener;
     }
 
-
     public class DrawerCityViewHolder extends RecyclerView.ViewHolder {
-
-        public TextView nameCity;
+        @BindView(R.id.name_city) TextView nameCity;
+        @BindView(R.id.cityListItemParent) View itemParent;
 
         public DrawerCityViewHolder(View itemView) {
             super(itemView);
-
-            nameCity = itemView.findViewById(R.id.name_city);
+            ButterKnife.bind(this, itemView);
         }
 
+        public void bind(final City city, final ItemClickListener listener) {
+
+            nameCity.setText(
+                    city.getName()
+            );
+
+            itemParent.setOnClickListener(view -> Toast.makeText(context, city.getName(), Toast.LENGTH_LONG).show());
+            itemParent.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    listener.onItemClick(city);
+                }
+            });
+        }
     }
 
     public void setData(List<City> newData) {
@@ -52,18 +75,13 @@ public class DrawerCityAdapter extends RecyclerView.Adapter<DrawerCityAdapter.Dr
         View drawerCityView = layoutInflater.inflate(R.layout.item_recycler_view_drawer_city_list, viewGroup, false);
 
         // Return a new holder instance
-        return new DrawerCityAdapter.DrawerCityViewHolder(drawerCityView);
+        return new DrawerCityViewHolder(drawerCityView);
     }
 
     @Override
     public void onBindViewHolder(DrawerCityViewHolder drawerCityViewHolder, int position) {
 
-        City city = cityList.get(position);
-
-        TextView name = drawerCityViewHolder.nameCity;
-        name.setText(
-                city.getName()
-        );
+        drawerCityViewHolder.bind(cityList.get(position), onItemClickListener);
     }
 
     @Override
@@ -71,4 +89,7 @@ public class DrawerCityAdapter extends RecyclerView.Adapter<DrawerCityAdapter.Dr
         return cityList.size();
     }
 
+    public interface ItemClickListener {
+        void onItemClick(City city);
+    }
 }

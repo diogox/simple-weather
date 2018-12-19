@@ -1,11 +1,12 @@
 package com.diogox.simpleweather;
 
+import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.FragmentManager;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -78,7 +79,20 @@ public class MainActivity extends AppCompatActivity
 
         View drawerRight = mRightDrawer.getHeaderView(0);
 
-        cityAdapter = new DrawerCityAdapter(mRightDrawer.getContext(), cityList);
+        cityAdapter = new DrawerCityAdapter(mRightDrawer.getContext(), cityList, city -> {
+
+            // TODO: Find city coordinates to pass into the fragment
+
+            // Start CityView fragment
+            FragmentManager manager = getSupportFragmentManager();
+            FragmentTransaction transaction = manager.beginTransaction();
+            transaction.replace(R.id.fragment_container, new CityViewFragment());
+            transaction.addToBackStack(null);
+            transaction.commit();
+
+            mDrawer.closeDrawer(GravityCompat.END);
+        });
+
         RecyclerView recyclerView = findViewById(R.id.drawerCityList);
         recyclerView.setAdapter(cityAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(mRightDrawer.getContext()));
