@@ -5,6 +5,7 @@
 
         <item>Celcius (ºC)</item>
         <item>Fahrenheit (ºF)</item>
+        <item>Kelvin (ºK)</item>
 
     </string-array>
 
@@ -12,6 +13,7 @@
 
         <item>C</item>
         <item>F</item>
+        <item>K</item>
 
     </string-array>
 
@@ -24,8 +26,8 @@
 
     <string-array name="pref_screen_velocity_values">
 
-        <item>kmh</item>
-        <item>ms</item>
+        <item>KMH</item>
+        <item>MS</item>
 
     </string-array>
 

@@ -2,7 +2,7 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <ListPreference
-        android:defaultValue="C"
+        android:defaultValue="K"
         android:entries="@array/pref_screen_temp"
         android:entryValues="@array/pref_screen_temp_values"
         android:key="si_temperature"
@@ -10,7 +10,7 @@
         android:title="Temperatura"/>
 
     <ListPreference
-        android:defaultValue="kmh"
+        android:defaultValue="KMH"
         android:entries="@array/pref_screen_velocity"
         android:entryValues="@array/pref_screen_velocity_values"
         android:key="si_velocity"

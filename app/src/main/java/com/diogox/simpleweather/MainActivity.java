@@ -1,6 +1,8 @@
 package com.diogox.simpleweather;
 
 import android.arch.lifecycle.LifecycleOwner;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.FragmentManager;
@@ -35,6 +37,7 @@ import com.diogox.simpleweather.Api.PlacesClient;
 import com.diogox.simpleweather.MenuLeft.Fragments.AlertFragment;
 import com.diogox.simpleweather.MenuLeft.Fragments.CityViewFragment;
 import com.diogox.simpleweather.MenuLeft.Fragments.MapFragment;
+import com.diogox.simpleweather.MenuLeft.Preferences.SettingsPreference;
 import com.diogox.simpleweather.MenuRight.CityViewModel;
 import com.diogox.simpleweather.MenuRight.DrawerCityAdapter;
 import com.google.gson.Gson;
@@ -67,6 +70,8 @@ public class MainActivity extends AppCompatActivity
     private List<City> cityList = new LinkedList<>();
     private DrawerCityAdapter cityAdapter;
 
+    private SharedPreferences mPreferences;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,6 +79,8 @@ public class MainActivity extends AppCompatActivity
         ButterKnife.bind(this);
 
         setSupportActionBar(mToolbar);
+
+        getPreferences();
 
         mFab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -185,6 +192,12 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        getPreferences();
+    }
+
+    @Override
     public void onBackPressed() {
         if (mDrawer.isDrawerOpen(GravityCompat.START)) {
 
@@ -253,4 +266,15 @@ public class MainActivity extends AppCompatActivity
     public void onClickCitiesBtn() {
         mDrawer.openDrawer(GravityCompat.END);
     }
+
+    /**
+     * Preferences
+     */
+    private void getPreferences() {
+        mPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+
+        SettingsPreference.temperatureUnit = mPreferences.getString("si_temperature", "K");
+        SettingsPreference.windUnit = mPreferences.getString("si_velocity", "MS");
+    }
+
 }

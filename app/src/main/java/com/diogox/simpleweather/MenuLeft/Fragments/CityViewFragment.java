@@ -15,8 +15,11 @@ import com.diogox.simpleweather.Api.Models.Weather.CityWeather;
 import com.diogox.simpleweather.Api.WeatherClient;
 import com.diogox.simpleweather.Api.Services.WeatherService;
 import com.diogox.simpleweather.MenuLeft.Location.GPSLocation;
+import com.diogox.simpleweather.MenuLeft.Preferences.SettingsPreference;
 import com.diogox.simpleweather.R;
 import com.xw.repo.BubbleSeekBar;
+
+import java.text.DecimalFormat;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -31,12 +34,16 @@ public class CityViewFragment extends Fragment {
     @BindView(R.id.cityCurrentWeatherValue) TextView mcityCurrentWeather;
     @BindView(R.id.cityLowTemperatureValue) TextView mCityLowTemperature;
     @BindView(R.id.cityHighTemperatureValue) TextView mCityHighTemperature;
+    @BindView(R.id.min_temp_unit) TextView mMinTemUnit;
+    @BindView(R.id.max_temp_unit) TextView mMaxTemUnit;
     @BindView(R.id.citySunsetCountdown) TextView mCitySunsetCountdown;
     @BindView(R.id.citySunriseCountdown) TextView mCitySunriseCountdown;
     @BindView(R.id.cityPressureValue) TextView mCityPressure;
     @BindView(R.id.cityWindValue) TextView mCityWindValue;
+    @BindView(R.id.wind_speed_unit) TextView mWindCityUnit;
     @BindView(R.id.cityMapBtn) ImageButton mCityMapBtn;
     @BindView(R.id.alertCityBtn) ImageButton mAlertCityBtn;
+    @BindView(R.id.cityHumidityValue) TextView mCityHumidityValue;
     @BindView(R.id.cityInfoTimeBar) BubbleSeekBar mCityInfoTimeBar;
 
     private Context context;
@@ -73,6 +80,12 @@ public class CityViewFragment extends Fragment {
              .into(mCityImg);
 
         return mContentView;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getLocation();
     }
 
     /**
@@ -125,6 +138,9 @@ public class CityViewFragment extends Fragment {
                     mCityWeather = response.body();
                     System.out.println("******** " + mCityWeather.toString());
 
+                    // Disponibilizar as informações
+                    setCityInformation();
+
                 } else {
 
                     System.out.println("************ " + response.code() + " **************");
@@ -144,6 +160,68 @@ public class CityViewFragment extends Fragment {
 
             }
         });
+
+    }
+
+    /**
+     * Apresentar a informação da cidade obtida
+     */
+    private void setCityInformation() {
+
+        String icon = mCityWeather.getWeather().get(0).getIcon();
+        Glide.with(context)
+                .load("http://openweathermap.org/img/w/" + icon + ".png")
+                .into(mCityCurrentWeatherIcon);
+
+        mcityCurrentWeather.setText(mCityWeather.getWeather().get(0).getMain());
+
+        switch (SettingsPreference.temperatureUnit) {
+
+            case "C":
+                float tempMinC = mCityWeather.getMain().getTemp_min() - 273.15f;
+                float tempMaxC = mCityWeather.getMain().getTemp_max() - 273.15f;
+                mCityLowTemperature.setText(String.format("%.2f", tempMinC));
+                mCityHighTemperature.setText(String.format("%.2f", tempMaxC));
+                mMinTemUnit.setText("ºC");
+                mMaxTemUnit.setText("ºC");
+                break;
+
+            case "F":
+                float tempMinF = (mCityWeather.getMain().getTemp_min() * (9/5)) + 32;
+                float tempMaxF = (mCityWeather.getMain().getTemp_max() * (9/5)) + 32;
+                mCityLowTemperature.setText(String.format("%.2f", tempMinF));
+                mCityHighTemperature.setText(String.format("%.2f", tempMaxF));
+                mMinTemUnit.setText("ºF");
+                mMaxTemUnit.setText("ºF");
+                break;
+
+            case "K":
+                mCityLowTemperature.setText(String.format("%.2f", mCityWeather.getMain().getTemp_min()));
+                mCityHighTemperature.setText(String.format("%.2f", mCityWeather.getMain().getTemp_max()));
+                mMinTemUnit.setText("ºK");
+                mMaxTemUnit.setText("ºK");
+                break;
+
+        }
+
+        mCityPressure.setText(String.format("%.2f", mCityWeather.getMain().getPressure()));
+
+        switch (SettingsPreference.windUnit) {
+
+            case "KMH":
+                float speedKMH = mCityWeather.getWind().getSpeed() * 3.6f;
+                mCityWindValue.setText(String.format("%.2f", speedKMH));
+                mWindCityUnit.setText("Km/h");
+                break;
+
+            case "MS":
+                mCityWindValue.setText(String.format("%.2f", mCityWeather.getWind().getSpeed()));
+                mWindCityUnit.setText("m/s");
+                break;
+
+        }
+
+        mCityHumidityValue.setText(String.format("%.2f", mCityWeather.getMain().getHumidity()));
 
     }
 
