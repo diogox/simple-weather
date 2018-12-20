@@ -5,7 +5,7 @@ import com.diogox.simpleweather.Api.Services.WeatherService;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class RetrofitClient {
+public class WeatherClient {
 
     /**
      * Url base da API
@@ -36,7 +36,7 @@ public class RetrofitClient {
      * @return Weather interface
      */
     public static WeatherService weatherService() {
-        return RetrofitClient.getClient().create(WeatherService.class);
+        return WeatherClient.getClient().create(WeatherService.class);
     }
 
 }

@@ -1,11 +1,10 @@
 package com.diogox.simpleweather.Api.Services;
 
-import com.diogox.simpleweather.Api.Models.CityWeather;
+import com.diogox.simpleweather.Api.Models.Weather.CityWeather;
 import com.diogox.simpleweather.Api.Models.Queries.CityZipCodeQuery;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
-import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface WeatherService {

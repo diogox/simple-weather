@@ -1,4 +1,4 @@
-package com.diogox.simpleweather.Api.Models;
+package com.diogox.simpleweather.Api.Models.Weather;
 
 import java.util.List;
 

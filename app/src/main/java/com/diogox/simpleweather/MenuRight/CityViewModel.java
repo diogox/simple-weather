@@ -28,11 +28,11 @@ public class CityViewModel extends AndroidViewModel {
         return cityDao.getAllCities();
     }
 
-    void saveCity(City city) {
+    public void saveCity(City city) {
         executorService.execute(() -> cityDao.insertCity(city));
     }
 
-    void deleteCity(City city) {
+    public void deleteCity(City city) {
         executorService.execute(() -> cityDao.deleteCity(city));
     }
 }

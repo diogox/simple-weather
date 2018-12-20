@@ -1,5 +1,7 @@
 package com.diogox.simpleweather;
 
+import android.arch.lifecycle.LifecycleOwner;
+import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.FragmentManager;
 import android.arch.lifecycle.ViewModelProviders;
@@ -10,6 +12,8 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -18,25 +22,33 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.diogox.simpleweather.Api.Models.Database.Cities.City;
+import com.diogox.simpleweather.Api.Models.Places.AutocompleteResultItem;
+import com.diogox.simpleweather.Api.Models.Places.AutocompleteResults;
+import com.diogox.simpleweather.Api.PlacesClient;
 import com.diogox.simpleweather.MenuLeft.Fragments.AlertFragment;
 import com.diogox.simpleweather.MenuLeft.Fragments.CityViewFragment;
 import com.diogox.simpleweather.MenuLeft.Fragments.MapFragment;
-import com.diogox.simpleweather.MenuLeft.Location.GPSLocation;
 import com.diogox.simpleweather.MenuRight.CityViewModel;
 import com.diogox.simpleweather.MenuRight.DrawerCityAdapter;
+import com.google.gson.Gson;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -47,6 +59,7 @@ public class MainActivity extends AppCompatActivity
     @BindView(R.id.left_drawer) NavigationView mLeftDrawer;
     @BindView(R.id.right_drawer) NavigationView mRightDrawer;
     @BindView(R.id.cities_drawer_btn) ImageButton mRightDrawerBtn;
+    @BindView(R.id.searchCitiesInput) EditText mRightDrawerSearch;
     @BindView(R.id.menu_btn) ImageButton mMenuBtn;
 
     private CityViewModel mCityViewModel;
@@ -80,7 +93,6 @@ public class MainActivity extends AppCompatActivity
         View drawerRight = mRightDrawer.getHeaderView(0);
 
         cityAdapter = new DrawerCityAdapter(mRightDrawer.getContext(), cityList, city -> {
-
             // TODO: Find city coordinates to pass into the fragment
 
             // Start CityView fragment
@@ -112,6 +124,64 @@ public class MainActivity extends AppCompatActivity
         // Listen for changes
         mCityViewModel.getAllCities().observe(this, cities -> cityAdapter.setData(cities));
 
+        mRightDrawerSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+
+                // If it's empty, return
+                String searchQuery = mRightDrawerSearch.getText().toString();
+                if (searchQuery.equals("")) {
+                    return false;
+                }
+
+                PlacesClient.getInstance().searchCitiesByName(searchQuery).enqueue(new Callback<AutocompleteResults>() {
+                    @Override
+                    public void onResponse(Call<AutocompleteResults> call, Response<AutocompleteResults> response) {
+
+                        // TODO: Get correct city name info
+                        List<City> cityResults = new ArrayList<>();
+                        for (AutocompleteResultItem item : response.body().getPredictions()) {
+                            City city = new City(12212, item.getDescription(), "", "", "");
+                            cityResults.add(city);
+                        }
+
+                        cityAdapter.setData(cityResults);
+                    }
+
+                    @Override
+                    public void onFailure(Call<AutocompleteResults> call, Throwable t) {
+                        Log.d("DRAWER", "FAILED TO GET INFO: " + t.getMessage());
+                    }
+                });
+                return false;
+            }
+        });
+
+        LifecycleOwner owner = this;
+        // Listen for
+        DrawerLayout.DrawerListener drawerListener = new DrawerLayout.DrawerListener() {
+            @Override
+            public void onDrawerSlide(@NonNull View view, float v) {
+
+            }
+
+            @Override
+            public void onDrawerOpened(@NonNull View view) {
+
+            }
+
+            @Override
+            public void onDrawerClosed(@NonNull View view) {
+                mRightDrawerSearch.setText("");
+                mCityViewModel.getAllCities().observe(owner, cities -> cityAdapter.setData(cities));
+            }
+
+            @Override
+            public void onDrawerStateChanged(int i) {
+
+            }
+        };
+        mDrawer.addDrawerListener(drawerListener);
     }
 
     @Override

@@ -11,8 +11,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.diogox.simpleweather.Api.Models.CityWeather;
-import com.diogox.simpleweather.Api.RetrofitClient;
+import com.diogox.simpleweather.Api.Models.Weather.CityWeather;
+import com.diogox.simpleweather.Api.WeatherClient;
 import com.diogox.simpleweather.Api.Services.WeatherService;
 import com.diogox.simpleweather.MenuLeft.Location.GPSLocation;
 import com.diogox.simpleweather.R;
@@ -111,7 +111,7 @@ public class CityViewFragment extends Fragment {
      */
     private void getActualCity(double latitude, double longitude) {
 
-        Call<CityWeather> call = RetrofitClient.weatherService().getWeatherByCityCoordinates(
+        Call<CityWeather> call = WeatherClient.weatherService().getWeatherByCityCoordinates(
                 latitude,
                 longitude,
                 WeatherService.MY_API_KEY
