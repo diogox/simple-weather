@@ -2,6 +2,7 @@ package com.diogox.simpleweather.MenuLeft.Fragments;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,7 +32,7 @@ public class CityViewFragment extends Fragment {
 
     @BindView(R.id.city_img) ImageView mCityImg;
     @BindView(R.id.cityCurrentWeatherIcon) ImageView mCityCurrentWeatherIcon;
-    @BindView(R.id.cityCurrentWeatherValue) TextView mcityCurrentWeather;
+    @BindView(R.id.cityCurrentWeatherValue) TextView mCityCurrentWeather;
     @BindView(R.id.cityLowTemperatureValue) TextView mCityLowTemperature;
     @BindView(R.id.cityHighTemperatureValue) TextView mCityHighTemperature;
     @BindView(R.id.min_temp_unit) TextView mMinTemUnit;
@@ -47,11 +48,13 @@ public class CityViewFragment extends Fragment {
     @BindView(R.id.cityInfoTimeBar) BubbleSeekBar mCityInfoTimeBar;
 
     private Context context;
+    private View mView;
     private String mCityName;
     private GPSLocation gpsLocation;
 
-    private double mLatitude;
-    private double mLongitude;
+    private String mLatitude;
+    private String mLongitude;
+    private String mImageURL;
 
     private CityWeather mCityWeather;
 
@@ -60,32 +63,48 @@ public class CityViewFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         context = getActivity();
-
-
-        // For testing purposes
-        mCityName = "Felgueiras";
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        final View mContentView = inflater.inflate(R.layout.fragment_home, container, false);
+        mView = inflater.inflate(R.layout.fragment_home, container, false);
 
-        ButterKnife.bind(this, mContentView);
+        ButterKnife.bind(this, mView);
 
-        getLocation();
+        // Get info passed into the fragment, if there is any.
+        try {
+            Bundle args = getArguments();
+            mCityName = args.getString("name");
+            mLatitude = args.getString("lat");
+            mLongitude = args.getString("lon");
+            mImageURL = args.getString("imgUrl");
+            getActualCity(mLatitude, mLongitude);
+        } catch (NullPointerException npe) {
+            getLocation();
+        }
 
-        Glide.with(mContentView)
-             .load("http://www.expressofelgueiras.com/wp-content/uploads/2016/05/Cidade-de-Felgueiras-.jpg")
+        Glide.with(mView)
+             .load(mImageURL)
              .into(mCityImg);
 
-        return mContentView;
+        return mView;
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        getLocation();
+
+        if (mCityName == null) {
+            getLocation();
+        }
+        Glide.with(mView)
+                .load(mImageURL)
+                .into(mCityImg);
+    }
+
+    public String getCityName() {
+        return mCityName;
     }
 
     /**
@@ -97,15 +116,15 @@ public class CityViewFragment extends Fragment {
 
         if (gpsLocation.isCanGetLocation()) {
 
-            mLatitude  = gpsLocation.getLatitude();
-            mLongitude = gpsLocation.getLongitude();
+            mLatitude  = String.valueOf( gpsLocation.getLatitude() );
+            mLongitude = String.valueOf( gpsLocation.getLongitude() );
 
         } else {
 
             gpsLocation.showSettingsAlert();
 
-            mLatitude  = gpsLocation.getLatitude();
-            mLongitude = gpsLocation.getLongitude();
+            mLatitude  = String.valueOf( gpsLocation.getLatitude() );
+            mLongitude = String.valueOf( gpsLocation.getLongitude() );
 
         }
 
@@ -122,7 +141,7 @@ public class CityViewFragment extends Fragment {
      * @param latitude latitude
      * @param longitude longitude
      */
-    private void getActualCity(double latitude, double longitude) {
+    private void getActualCity(String latitude, String longitude) {
 
         Call<CityWeather> call = WeatherClient.weatherService().getWeatherByCityCoordinates(
                 latitude,
@@ -140,7 +159,6 @@ public class CityViewFragment extends Fragment {
 
                     // Disponibilizar as informações
                     setCityInformation();
-
                 } else {
 
                     System.out.println("************ " + response.code() + " **************");
@@ -163,17 +181,21 @@ public class CityViewFragment extends Fragment {
 
     }
 
+    public void updateInfo() {
+        mCityCurrentWeather.setText("BOA!");
+    }
+
     /**
      * Apresentar a informação da cidade obtida
      */
     private void setCityInformation() {
 
         String icon = mCityWeather.getWeather().get(0).getIcon();
-        Glide.with(context)
-                .load("http://openweathermap.org/img/w/" + icon + ".png")
+        Glide.with(mView)
+                .load("https://openweathermap.org/img/w/" + icon + ".png")
                 .into(mCityCurrentWeatherIcon);
 
-        mcityCurrentWeather.setText(mCityWeather.getWeather().get(0).getMain());
+        mCityCurrentWeather.setText(mCityWeather.getWeather().get(0).getMain());
 
         switch (SettingsPreference.temperatureUnit) {
 
@@ -222,7 +244,14 @@ public class CityViewFragment extends Fragment {
         }
 
         mCityHumidityValue.setText(String.format("%.2f", mCityWeather.getMain().getHumidity()));
-
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString("name", mCityName);
+        outState.putString("lon", mLongitude);
+        outState.putString("lat", mLatitude);
+        outState.putString("imgUrl", mImageURL);
+    }
 }

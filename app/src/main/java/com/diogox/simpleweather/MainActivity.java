@@ -24,6 +24,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.Window;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -55,6 +56,7 @@ import retrofit2.Response;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    private TextView mCityName;
     @BindView(R.id.toolbar) Toolbar mToolbar;
     @BindView(R.id.fab) FloatingActionButton mFab;
     @BindView(R.id.drawer_layout) DrawerLayout mDrawer;
@@ -80,6 +82,7 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(mToolbar);
 
         getPreferences();
+        mCityName = mToolbar.findViewById(R.id.appBarCityName);
 
         mFab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -100,12 +103,23 @@ public class MainActivity extends AppCompatActivity
 
         cityAdapter = new DrawerCityAdapter(mRightDrawer.getContext(), cityList, city -> {
 
+            // Create Fragment with info
+            Bundle bundle = new Bundle();
+
+            mCityName.setText(city.getName());
+            bundle.putString("name", city.getName());
+            bundle.putString("lat", city.getLat());
+            bundle.putString("lon", city.getLon());
+            bundle.putString("imgUrl", city.getPhotoUrl());
+            CityViewFragment cityView = new CityViewFragment();
+            cityView.setArguments(bundle);
+
             // Start CityView fragment
             FragmentManager manager = getSupportFragmentManager();
             FragmentTransaction transaction = manager.beginTransaction();
-            transaction.replace(R.id.fragment_container, new CityViewFragment());
-            transaction.addToBackStack(null);
+            transaction.replace(R.id.fragment_container, cityView);
             transaction.commit();
+            transaction.addToBackStack(null);
 
             mDrawer.closeDrawer(GravityCompat.END);
         });
@@ -119,8 +133,21 @@ public class MainActivity extends AppCompatActivity
 
         CityViewFragment homeFragment = new CityViewFragment();
 
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentManager.OnBackStackChangedListener onBackStackChangedListener = new FragmentManager.OnBackStackChangedListener() {
+            @Override
+            public void onBackStackChanged() {
+                FragmentManager manager = getSupportFragmentManager();
+                CityViewFragment fragment = (CityViewFragment) manager.findFragmentById(R.id.fragment_container);
+                fragment.onResume();
+                mCityName.setText(fragment.getCityName());
+            }
+        };
+        fragmentManager.addOnBackStackChangedListener(onBackStackChangedListener);
+
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.add(R.id.fragment_container, homeFragment);
+        fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
 
         // Cities view model
@@ -243,6 +270,12 @@ public class MainActivity extends AppCompatActivity
             CityViewFragment homeFragment = new CityViewFragment();
             fragmentTransaction.replace(R.id.fragment_container, homeFragment);
             fragmentTransaction.commit();
+            mCityName.setText(homeFragment.getCityName());
+
+            FragmentManager fm = getSupportFragmentManager();
+            for(int i = 0; i < fm.getBackStackEntryCount(); ++i) {
+                fm.popBackStack();
+            }
 
         }else if (id == R.id.nav_map) { // Map
 
@@ -294,5 +327,4 @@ public class MainActivity extends AppCompatActivity
         SettingsPreference.temperatureUnit = mPreferences.getString("si_temperature", "K");
         SettingsPreference.windUnit = mPreferences.getString("si_velocity", "MS");
     }
-
 }
