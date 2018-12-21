@@ -29,10 +29,10 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.diogox.simpleweather.Api.Models.Database.Cities.City;
 import com.diogox.simpleweather.Api.Models.Places.AutocompleteResultItem;
 import com.diogox.simpleweather.Api.Models.Places.AutocompleteResults;
+import com.diogox.simpleweather.Api.Models.Places.CityDetails;
 import com.diogox.simpleweather.Api.PlacesClient;
 import com.diogox.simpleweather.MenuLeft.Fragments.AlertFragment;
 import com.diogox.simpleweather.MenuLeft.Fragments.CityViewFragment;
@@ -40,7 +40,6 @@ import com.diogox.simpleweather.MenuLeft.Fragments.MapFragment;
 import com.diogox.simpleweather.MenuLeft.Preferences.SettingsPreference;
 import com.diogox.simpleweather.MenuRight.CityViewModel;
 import com.diogox.simpleweather.MenuRight.DrawerCityAdapter;
-import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -100,7 +99,6 @@ public class MainActivity extends AppCompatActivity
         View drawerRight = mRightDrawer.getHeaderView(0);
 
         cityAdapter = new DrawerCityAdapter(mRightDrawer.getContext(), cityList, city -> {
-            // TODO: Find city coordinates to pass into the fragment
 
             // Start CityView fragment
             FragmentManager manager = getSupportFragmentManager();
@@ -147,12 +145,32 @@ public class MainActivity extends AppCompatActivity
 
                         // TODO: Get correct city name info
                         List<City> cityResults = new ArrayList<>();
-                        for (AutocompleteResultItem item : response.body().getPredictions()) {
-                            City city = new City(12212, item.getDescription(), "", "", "");
-                            cityResults.add(city);
-                        }
-
                         cityAdapter.setData(cityResults);
+                        for (AutocompleteResultItem item : response.body().getPredictions()) {
+
+                            // Get details
+                            PlacesClient.getInstance().getCityDetails(item.getPlaceId()).enqueue(new Callback<CityDetails>() {
+                                @Override
+                                public void onResponse(Call<CityDetails> call, Response<CityDetails> response) {
+                                    CityDetails details = response.body();
+
+                                    City city = new City(item.getPlaceId(),
+                                            item.getDescription(),
+                                            "",
+                                            details.getLat(),
+                                            details.getLon(),
+                                            details.getPhotoUrl());
+
+                                    cityResults.add(city);
+                                    cityAdapter.notifyDataSetChanged();
+                                }
+
+                                @Override
+                                public void onFailure(Call<CityDetails> call, Throwable t) {
+                                    Log.d("DRAWER", "FAILED TO GET DETAILS: " + t.getMessage());
+                                }
+                            });
+                        }
                     }
 
                     @Override

@@ -12,7 +12,7 @@ import com.diogox.simpleweather.Api.Models.Database.Cities.CityDAO;
 
 import java.util.concurrent.Executors;
 
-@Database(entities = {City.class}, version = 2)
+@Database(entities = {City.class}, version = 3)
 public abstract class AppDb extends RoomDatabase {
     private static AppDb INSTANCE;
 

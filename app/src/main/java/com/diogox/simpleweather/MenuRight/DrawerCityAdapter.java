@@ -8,10 +8,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.diogox.simpleweather.Api.Models.Database.Cities.City;
 import com.diogox.simpleweather.MainActivity;
 import com.diogox.simpleweather.R;
@@ -37,6 +39,7 @@ public class DrawerCityAdapter extends RecyclerView.Adapter<DrawerCityAdapter.Dr
     public class DrawerCityViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.name_city) TextView nameCity;
         @BindView(R.id.cityListItemParent) View itemParent;
+        @BindView(R.id.cityListItemImage) ImageView cityImg;
 
         public DrawerCityViewHolder(View itemView) {
             super(itemView);
@@ -48,6 +51,12 @@ public class DrawerCityAdapter extends RecyclerView.Adapter<DrawerCityAdapter.Dr
             nameCity.setText(
                     city.getName()
             );
+
+            String photoUrl = city.getPhotoUrl();
+
+            if (photoUrl != null) {
+                Glide.with(context).load(photoUrl).into(cityImg);
+            }
 
             itemParent.setOnClickListener(view -> Toast.makeText(context, city.getName(), Toast.LENGTH_LONG).show());
             itemParent.setOnClickListener(new View.OnClickListener() {

@@ -1,6 +1,7 @@
 package com.diogox.simpleweather.Api.Services;
 
 import com.diogox.simpleweather.Api.Models.Places.AutocompleteResults;
+import com.diogox.simpleweather.Api.Models.Places.CityDetails;
 
 import java.util.List;
 
@@ -12,4 +13,7 @@ public interface PlacesService {
 
     @GET("autocomplete/json")
     Call<AutocompleteResults> searchCitiesByName(@Query("input") String cityQuery, @Query("types") String placeType, @Query("key") String apiKey);
+
+    @GET("details/json")
+    Call<CityDetails> getCityDetails(@Query("placeid") String placeId, @Query("key") String apiKey);
 }

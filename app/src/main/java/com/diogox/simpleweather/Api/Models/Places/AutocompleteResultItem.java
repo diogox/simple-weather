@@ -13,4 +13,32 @@ public class AutocompleteResultItem {
     public String getDescription() {
         return description;
     }
+
+    public String getId() {
+        return id;
+    }
+
+    public String getMatchedSubstrings() {
+        return matched_substrings;
+    }
+
+    public String getPlaceId() {
+        return place_id;
+    }
+
+    public String getReference() {
+        return reference;
+    }
+
+    public String getStructuredFormatting() {
+        return structured_formatting;
+    }
+
+    public String getTerms() {
+        return terms;
+    }
+
+    public String getTypes() {
+        return types;
+    }
 }
