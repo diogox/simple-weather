@@ -19,6 +19,9 @@ public interface CityDAO {
     @Query("SELECT * FROM city WHERE name LIKE :name")
     LiveData<List<City>> findByName(String name);
 
+    @Query("SELECT * FROM city WHERE id LIKE :id")
+    City findById(String id);
+
     @Insert(onConflict = REPLACE)
     void insertCity(City city);
 

@@ -35,4 +35,8 @@ public class CityViewModel extends AndroidViewModel {
     public void deleteCity(City city) {
         executorService.execute(() -> cityDao.deleteCity(city));
     }
+
+    public City findCity(City city) {
+        return cityDao.findById(city.getId());
+    }
 }

@@ -41,6 +41,8 @@ import com.diogox.simpleweather.MenuLeft.Fragments.MapFragment;
 import com.diogox.simpleweather.MenuLeft.Preferences.SettingsPreference;
 import com.diogox.simpleweather.MenuRight.CityViewModel;
 import com.diogox.simpleweather.MenuRight.DrawerCityAdapter;
+import com.like.LikeButton;
+import com.like.OnLikeListener;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -58,6 +60,7 @@ public class MainActivity extends AppCompatActivity
 
     private TextView mCityName;
     @BindView(R.id.toolbar) Toolbar mToolbar;
+    @BindView(R.id.star_button) LikeButton mStarBtn;
     @BindView(R.id.drawer_layout) DrawerLayout mDrawer;
     @BindView(R.id.left_drawer) NavigationView mLeftDrawer;
     @BindView(R.id.right_drawer) NavigationView mRightDrawer;
@@ -69,6 +72,7 @@ public class MainActivity extends AppCompatActivity
 
     private List<City> cityList = new LinkedList<>();
     private DrawerCityAdapter cityAdapter;
+    private List<City> mCurrentCityList = new LinkedList<>();
     private String mCurrentCityLat;
     private String mCurrentCityLon;
 
@@ -99,6 +103,8 @@ public class MainActivity extends AppCompatActivity
             mCurrentCityLat = city.getLat();
             mCurrentCityLon = city.getLon();
 
+            mCurrentCityList.add(city);
+
             // Create Fragment with info
             Bundle bundle = new Bundle();
 
@@ -116,6 +122,13 @@ public class MainActivity extends AppCompatActivity
             transaction.replace(R.id.fragment_container, cityView);
             transaction.commit();
             transaction.addToBackStack(null);
+
+            City favoritedCity = mCityViewModel.findCity(city);
+            if (favoritedCity != null) {
+                mStarBtn.setLiked(true);
+            } else {
+                mStarBtn.setLiked(false);
+            }
 
             mDrawer.closeDrawer(GravityCompat.END);
         });
@@ -140,6 +153,25 @@ public class MainActivity extends AppCompatActivity
 
                 mCurrentCityLat = fragment.getCityLat();
                 mCurrentCityLon = fragment.getCityLon();
+
+                City currentCity = null;
+                for (City city : mCurrentCityList) {
+                    if (mCurrentCityLat.equals(city.getLat()) && mCurrentCityLon.equals(city.getLon())) {
+                        currentCity = city;
+                        break;
+                    }
+                }
+
+                if (currentCity != null) {
+                    City favoritedCity = mCityViewModel.findCity(currentCity);
+                    if (favoritedCity != null) {
+                        mStarBtn.setLiked(true);
+                    } else {
+                        mStarBtn.setLiked(false);
+                    }
+                } else {
+                    mStarBtn.setLiked(false);
+                }
             }
         };
         fragmentManager.addOnBackStackChangedListener(onBackStackChangedListener);
@@ -239,6 +271,42 @@ public class MainActivity extends AppCompatActivity
             }
         };
         mDrawer.addDrawerListener(drawerListener);
+
+        mStarBtn.setOnLikeListener(new OnLikeListener() {
+            @Override
+            public void liked(LikeButton likeButton) {
+                City currentCity = null;
+                for (City city : mCurrentCityList) {
+                    if (mCurrentCityLat.equals(city.getLat()) && mCurrentCityLon.equals(city.getLon())) {
+                        currentCity = city;
+                        break;
+                    }
+                }
+
+                if (currentCity == null) {
+                    likeButton.setLiked(false);
+                } else {
+                    mCityViewModel.saveCity(currentCity);
+                }
+            }
+
+            @Override
+            public void unLiked(LikeButton likeButton) {
+                City currentCity = null;
+                for (City city : mCurrentCityList) {
+                    if (mCurrentCityLat.equals(city.getLat()) && mCurrentCityLon.equals(city.getLon())) {
+                        currentCity = city;
+                        break;
+                    }
+                }
+
+                if (currentCity == null) {
+                    throw new Error("Can't remove from favorites");
+                } else {
+                    mCityViewModel.deleteCity(currentCity);
+                }
+            }
+        });
     }
 
     @Override
