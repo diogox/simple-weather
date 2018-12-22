@@ -170,11 +170,15 @@ public class MainActivity extends AppCompatActivity
                 PlacesClient.getInstance().searchCitiesByName(searchQuery).enqueue(new Callback<AutocompleteResults>() {
                     @Override
                     public void onResponse(Call<AutocompleteResults> call, Response<AutocompleteResults> response) {
+                        List<AutocompleteResultItem> results = response.body().getPredictions();
 
                         List<City> cityResults = new ArrayList<>();
                         cityAdapter.setData(cityResults);
-                        for (AutocompleteResultItem item : response.body().getPredictions()) {
+                        for (int i = 0; i < results.size(); i++) {
+                            cityResults.add(new City("", "", "", "", "", ""));
+                        }
 
+                        for (AutocompleteResultItem item : results) {
                             // Get details
                             PlacesClient.getInstance().getCityDetails(item.getPlaceId()).enqueue(new Callback<CityDetails>() {
                                 @Override
@@ -188,7 +192,8 @@ public class MainActivity extends AppCompatActivity
                                             details.getLon(),
                                             details.getPhotoUrl());
 
-                                    cityResults.add(city);
+                                    int addToIndex = results.indexOf(item);
+                                    cityResults.set(addToIndex, city);
                                     cityAdapter.notifyDataSetChanged();
                                 }
 

@@ -8,6 +8,7 @@ public class CityDetails {
     transient private String html_attributions;
     transient private String status;
     private CityDetailsResult result;
+    private String place_id;
 
     public String getLat() {
         return result.geometry.location.lat;
@@ -24,6 +25,10 @@ public class CityDetails {
         }
 
         return null;
+    }
+
+    public String getPlaceId() {
+        return place_id;
     }
 
     private class CityDetailsResult {
