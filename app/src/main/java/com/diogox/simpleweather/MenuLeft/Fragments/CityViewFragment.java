@@ -106,6 +106,12 @@ public class CityViewFragment extends Fragment {
     public String getCityName() {
         return mCityName;
     }
+    public String getCityLat() {
+        return mLatitude;
+    }
+    public String getCityLon() {
+        return mLongitude;
+    }
 
     /**
      * Obter a localização atual

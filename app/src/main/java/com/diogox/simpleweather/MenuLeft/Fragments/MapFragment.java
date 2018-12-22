@@ -27,6 +27,9 @@ public class MapFragment extends Fragment {
     private MapView mMapView;
     private GoogleMap mGoogleMap;
 
+    private String mLatitude;
+    private String mLongitude;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,6 +45,12 @@ public class MapFragment extends Fragment {
         mMapView.onCreate(savedInstanceState);
 
         mMapView.onResume();
+
+        try {
+            Bundle args = getArguments();
+            mLatitude = args.getString("lat");
+            mLongitude = args.getString("lon");
+        } catch (NullPointerException npe) {}
 
         try {
             MapsInitializer.initialize(getActivity().getApplicationContext());
@@ -68,11 +77,11 @@ public class MapFragment extends Fragment {
                 mGoogleMap.setMyLocationEnabled(true);
 
                 // For dropping a marker at a point on the Map
-                LatLng sydney = new LatLng(-34, 151);
-                mGoogleMap.addMarker(new MarkerOptions().position(sydney).title("Marker Title").snippet("Marker Description"));
+                LatLng city = new LatLng(Float.parseFloat(mLatitude), Float.parseFloat(mLongitude));
+                mGoogleMap.addMarker(new MarkerOptions().position(city).title("Marker Title").snippet("Marker Description"));
 
                 // For zooming automatically to the location of the marker
-                CameraPosition cameraPosition = new CameraPosition.Builder().target(sydney).zoom(12).build();
+                CameraPosition cameraPosition = new CameraPosition.Builder().target(city).zoom(12).build();
                 mGoogleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
             }
         });
@@ -83,6 +92,12 @@ public class MapFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+
+        try {
+            Bundle args = getArguments();
+            mLatitude = args.getString("lat");
+            mLongitude = args.getString("lon");
+        } catch (NullPointerException npe) {}
         mMapView.onResume();
     }
 

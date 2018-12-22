@@ -69,6 +69,8 @@ public class MainActivity extends AppCompatActivity
 
     private List<City> cityList = new LinkedList<>();
     private DrawerCityAdapter cityAdapter;
+    private String mCurrentCityLat;
+    private String mCurrentCityLon;
 
     private SharedPreferences mPreferences;
 
@@ -93,6 +95,9 @@ public class MainActivity extends AppCompatActivity
         View drawerRight = mRightDrawer.getHeaderView(0);
 
         cityAdapter = new DrawerCityAdapter(mRightDrawer.getContext(), cityList, city -> {
+
+            mCurrentCityLat = city.getLat();
+            mCurrentCityLon = city.getLon();
 
             // Create Fragment with info
             Bundle bundle = new Bundle();
@@ -132,6 +137,9 @@ public class MainActivity extends AppCompatActivity
                 CityViewFragment fragment = (CityViewFragment) manager.findFragmentById(R.id.fragment_container);
                 fragment.onResume();
                 mCityName.setText(fragment.getCityName());
+
+                mCurrentCityLat = fragment.getCityLat();
+                mCurrentCityLon = fragment.getCityLon();
             }
         };
         fragmentManager.addOnBackStackChangedListener(onBackStackChangedListener);
@@ -140,6 +148,8 @@ public class MainActivity extends AppCompatActivity
         fragmentTransaction.add(R.id.fragment_container, homeFragment);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
+        mCurrentCityLat = homeFragment.getCityLat();
+        mCurrentCityLon = homeFragment.getCityLon();
 
         // Cities view model
         mCityViewModel = ViewModelProviders.of(this).get(CityViewModel.class);
@@ -270,7 +280,12 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_map) { // Map
 
+            Bundle bundle = new Bundle();
+            bundle.putString("lat", mCurrentCityLat);
+            bundle.putString("lon", mCurrentCityLon);
+
             MapFragment mapFragment = new MapFragment();
+            mapFragment.setArguments(bundle);
             fragmentTransaction.replace(R.id.fragment_container, mapFragment);
             fragmentTransaction.commit();
 
