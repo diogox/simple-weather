@@ -1,11 +1,8 @@
 package com.diogox.simpleweather.Api;
 
-import com.diogox.simpleweather.Api.Models.Database.Cities.City;
 import com.diogox.simpleweather.Api.Models.Places.AutocompleteResults;
 import com.diogox.simpleweather.Api.Models.Places.CityDetails;
 import com.diogox.simpleweather.Api.Services.PlacesService;
-
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Retrofit;
@@ -13,7 +10,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class PlacesClient {
     private static final String BASE_URL = "https://maps.googleapis.com/maps/api/place/";
-    public static final String API_KEY = "AIzaSyAfG-CP-xPDUQ6gSklEJIU4aQbtBACGM7k"; // TODO: Add api_key through env variables
+    public static final String API_KEY = ""; // TODO: Add api_key through env variables
     private static PlacesClient instance = null;
     private PlacesService placesApi;
 

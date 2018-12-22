@@ -58,7 +58,6 @@ public class MainActivity extends AppCompatActivity
 
     private TextView mCityName;
     @BindView(R.id.toolbar) Toolbar mToolbar;
-    @BindView(R.id.fab) FloatingActionButton mFab;
     @BindView(R.id.drawer_layout) DrawerLayout mDrawer;
     @BindView(R.id.left_drawer) NavigationView mLeftDrawer;
     @BindView(R.id.right_drawer) NavigationView mRightDrawer;
@@ -83,14 +82,6 @@ public class MainActivity extends AppCompatActivity
 
         getPreferences();
         mCityName = mToolbar.findViewById(R.id.appBarCityName);
-
-        mFab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, mDrawer, mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -277,7 +268,7 @@ public class MainActivity extends AppCompatActivity
                 fm.popBackStack();
             }
 
-        }else if (id == R.id.nav_map) { // Map
+        } else if (id == R.id.nav_map) { // Map
 
             MapFragment mapFragment = new MapFragment();
             fragmentTransaction.replace(R.id.fragment_container, mapFragment);
