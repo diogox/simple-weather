@@ -11,11 +11,17 @@ public class CityDetails {
     private String place_id;
 
     public String getLat() {
-        return result.geometry.location.lat;
+        if (result != null)
+            return result.geometry.location.lat;
+
+        return null;
     }
 
     public String getLon() {
-        return result.geometry.location.lng;
+        if (result != null)
+            return result.geometry.location.lng;
+
+        return null;
     }
 
     public String getPhotoUrl() {

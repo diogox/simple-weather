@@ -2,7 +2,6 @@ package com.diogox.simpleweather.MenuLeft.Fragments;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,15 +11,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.diogox.simpleweather.Api.Models.Weather.CityWeather;
+import com.diogox.simpleweather.Api.Models.Weather.City.CityWeather;
 import com.diogox.simpleweather.Api.WeatherClient;
 import com.diogox.simpleweather.Api.Services.WeatherService;
 import com.diogox.simpleweather.MenuLeft.Location.GPSLocation;
 import com.diogox.simpleweather.MenuLeft.Preferences.SettingsPreference;
 import com.diogox.simpleweather.R;
 import com.xw.repo.BubbleSeekBar;
-
-import java.text.DecimalFormat;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

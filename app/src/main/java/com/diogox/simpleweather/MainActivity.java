@@ -44,6 +44,7 @@ import com.diogox.simpleweather.MenuRight.DrawerCityAdapter;
 import com.like.LikeButton;
 import com.like.OnLikeListener;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -356,6 +357,7 @@ public class MainActivity extends AppCompatActivity
             Bundle bundle = new Bundle();
             bundle.putString("lat", mCurrentCityLat);
             bundle.putString("lon", mCurrentCityLon);
+            bundle.putSerializable("cityList", (Serializable) mCurrentCityList);
 
             MapFragment mapFragment = new MapFragment();
             mapFragment.setArguments(bundle);

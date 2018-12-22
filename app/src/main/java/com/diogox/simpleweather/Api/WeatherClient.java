@@ -1,7 +1,9 @@
 package com.diogox.simpleweather.Api;
 
+import com.diogox.simpleweather.Api.Models.Weather.Area.AreaWeather;
 import com.diogox.simpleweather.Api.Services.WeatherService;
 
+import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -38,5 +40,4 @@ public class WeatherClient {
     public static WeatherService weatherService() {
         return WeatherClient.getClient().create(WeatherService.class);
     }
-
 }

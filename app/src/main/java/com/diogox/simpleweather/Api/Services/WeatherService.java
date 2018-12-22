@@ -1,6 +1,7 @@
 package com.diogox.simpleweather.Api.Services;
 
-import com.diogox.simpleweather.Api.Models.Weather.CityWeather;
+import com.diogox.simpleweather.Api.Models.Weather.Area.AreaWeather;
+import com.diogox.simpleweather.Api.Models.Weather.City.CityWeather;
 import com.diogox.simpleweather.Api.Models.Queries.CityZipCodeQuery;
 
 import retrofit2.Call;
@@ -23,4 +24,7 @@ public interface WeatherService {
 
     @GET("weather")
     Call<CityWeather> getWeatherByCityZipCode(@Query("zip") CityZipCodeQuery cityZipCode, @Query("appId") String appId);
+
+    @GET("find")
+    Call<AreaWeather> getWeatherForArea(@Query("lat") String lat, @Query("lon") String lon, @Query("cnt") String cnt, @Query("appId") String appId);
 }
