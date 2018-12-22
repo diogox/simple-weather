@@ -167,7 +167,6 @@ public class CityViewFragment extends Fragment {
                 }
 
                 System.out.println("************ " + response.code() + " **************");
-
             }
 
             @Override
@@ -175,7 +174,6 @@ public class CityViewFragment extends Fragment {
 
                 System.out.println("************ " + t.getCause() + " **************");
                 System.out.println("************ " + t.getMessage() + " **************");
-
             }
         });
 
@@ -240,7 +238,6 @@ public class CityViewFragment extends Fragment {
                 mCityWindValue.setText(String.format("%.2f", mCityWeather.getWind().getSpeed()));
                 mWindCityUnit.setText("m/s");
                 break;
-
         }
 
         mCityHumidityValue.setText(String.format("%.2f", mCityWeather.getMain().getHumidity()));

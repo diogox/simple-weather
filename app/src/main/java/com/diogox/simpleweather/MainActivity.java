@@ -170,7 +170,6 @@ public class MainActivity extends AppCompatActivity
                     @Override
                     public void onResponse(Call<AutocompleteResults> call, Response<AutocompleteResults> response) {
 
-                        // TODO: Get correct city name info
                         List<City> cityResults = new ArrayList<>();
                         cityAdapter.setData(cityResults);
                         for (AutocompleteResultItem item : response.body().getPredictions()) {
@@ -182,7 +181,7 @@ public class MainActivity extends AppCompatActivity
                                     CityDetails details = response.body();
 
                                     City city = new City(item.getPlaceId(),
-                                            item.getDescription(),
+                                            item.getName(),
                                             "",
                                             details.getLat(),
                                             details.getLon(),
@@ -253,6 +252,7 @@ public class MainActivity extends AppCompatActivity
             // Close right drawer
             mDrawer.closeDrawer(GravityCompat.END);
         } else {
+
             super.onBackPressed();
         }
     }

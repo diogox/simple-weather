@@ -6,20 +6,16 @@ public class AutocompleteResultItem {
     transient private String matched_substrings;
     private String place_id;
     private String reference;
-    transient private String structured_formatting;
+    private StructuredFormatting structured_formatting;
     transient private String terms;
     transient private String types;
 
-    public String getDescription() {
-        return description;
+    public String getName() {
+        return structured_formatting.main_text;
     }
 
     public String getId() {
         return id;
-    }
-
-    public String getMatchedSubstrings() {
-        return matched_substrings;
     }
 
     public String getPlaceId() {
@@ -30,15 +26,8 @@ public class AutocompleteResultItem {
         return reference;
     }
 
-    public String getStructuredFormatting() {
-        return structured_formatting;
-    }
-
-    public String getTerms() {
-        return terms;
-    }
-
-    public String getTypes() {
-        return types;
+    private class StructuredFormatting {
+        private String main_text; // City Name
+        private String secondary_text; // Country Name
     }
 }

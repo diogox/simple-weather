@@ -13,7 +13,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class PlacesClient {
     private static final String BASE_URL = "https://maps.googleapis.com/maps/api/place/";
-    public static final String API_KEY = "";
+    public static final String API_KEY = "AIzaSyAfG-CP-xPDUQ6gSklEJIU4aQbtBACGM7k"; // TODO: Add api_key through env variables
     private static PlacesClient instance = null;
     private PlacesService placesApi;
 

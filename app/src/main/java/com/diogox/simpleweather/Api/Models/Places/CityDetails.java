@@ -26,21 +26,21 @@ public class CityDetails {
         return null;
     }
 
-    protected class CityDetailsResult {
-        protected Geometry geometry;
-        protected List<Photos> photos;
+    private class CityDetailsResult {
+        private Geometry geometry;
+        private List<Photos> photos;
 
-        protected class Geometry {
-            protected GeometryLocation location;
+        private class Geometry {
+            private GeometryLocation location;
 
-            protected class GeometryLocation {
-                protected String lat;
-                protected String lng;
+            private class GeometryLocation {
+                private String lat;
+                private String lng;
             }
         }
 
-        protected class Photos {
-            protected String photo_reference;
+        private class Photos {
+            private String photo_reference;
         }
     }
 }
