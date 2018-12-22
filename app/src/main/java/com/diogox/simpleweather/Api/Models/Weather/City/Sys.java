@@ -6,8 +6,8 @@ public class Sys {
     private float id;
     private float message;
     private String country;
-    private float sunrise;
-    private float sunset;
+    private long sunrise;
+    private long sunset;
 
 
     // Getter Methods
@@ -28,11 +28,11 @@ public class Sys {
         return country;
     }
 
-    public float getSunrise() {
+    public long getSunrise() {
         return sunrise;
     }
 
-    public float getSunset() {
+    public long getSunset() {
         return sunset;
     }
 
