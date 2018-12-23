@@ -12,12 +12,17 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.diogox.simpleweather.Api.Models.Weather.City.CityWeather;
+import com.diogox.simpleweather.Api.Models.Weather.Forecast.CityForecast;
+import com.diogox.simpleweather.Api.Models.Weather.Forecast.WeatherForecast;
 import com.diogox.simpleweather.Api.WeatherClient;
 import com.diogox.simpleweather.Api.Services.WeatherService;
 import com.diogox.simpleweather.MenuLeft.Location.GPSLocation;
 import com.diogox.simpleweather.MenuLeft.Preferences.SettingsPreference;
 import com.diogox.simpleweather.R;
 import com.xw.repo.BubbleSeekBar;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -53,8 +58,6 @@ public class CityViewFragment extends Fragment {
     private String mLongitude;
     private String mImageURL;
 
-    private CityWeather mCityWeather;
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,6 +72,8 @@ public class CityViewFragment extends Fragment {
 
         ButterKnife.bind(this, mView);
 
+        mCityInfoTimeBar.setEnabled(false);
+
         // Get info passed into the fragment, if there is any.
         try {
             Bundle args = getArguments();
@@ -76,14 +81,17 @@ public class CityViewFragment extends Fragment {
             mLatitude = args.getString("lat");
             mLongitude = args.getString("lon");
             mImageURL = args.getString("imgUrl");
+
             getActualCity(mLatitude, mLongitude);
+            getWeatherForecast(mLatitude, mLongitude);
+
         } catch (NullPointerException npe) {
             getLocation();
         }
 
         Glide.with(mView)
-             .load(mImageURL)
-             .into(mCityImg);
+                .load(mImageURL)
+                .into(mCityImg);
 
         return mView;
     }
@@ -135,6 +143,7 @@ public class CityViewFragment extends Fragment {
         System.out.println("********* LON: " + mLongitude);
 
         getActualCity(mLatitude, mLongitude);
+        getWeatherForecast(mLatitude, mLongitude);
 
     }
 
@@ -157,11 +166,11 @@ public class CityViewFragment extends Fragment {
 
                 if (response.isSuccessful()) {
 
-                    mCityWeather = response.body();
-                    System.out.println("******** " + mCityWeather.toString());
+                    CityWeather cityWeather = response.body();
+                    System.out.println("******** " + cityWeather.toString());
 
                     // Disponibilizar as informações
-                    setCityInformation();
+                    setCityInformation(cityWeather);
                 } else {
 
                     System.out.println("************ " + response.code() + " **************");
@@ -182,6 +191,50 @@ public class CityViewFragment extends Fragment {
 
     }
 
+    /**
+     * Previsão metereológica
+     *
+     * @param latitude
+     * @param longitude
+     */
+    private void getWeatherForecast(String latitude, String longitude) {
+
+        Call<CityForecast> call = WeatherClient.weatherService().getWeatherForecast(
+                latitude,
+                longitude,
+                WeatherService.MY_API_KEY
+        );
+        call.enqueue(new Callback<CityForecast>() {
+            @Override
+            public void onResponse(Call<CityForecast> call, Response<CityForecast> response) {
+
+                if (response.isSuccessful()) {
+
+                    CityForecast weather = response.body();
+                    System.out.println("******** " + weather.toString());
+
+                    // Disponibilizar as informações
+                    setCityInformationForecast(weather);
+                } else {
+
+                    System.out.println("************ " + response.code() + " **************");
+                    System.out.println("************ " + response.message() + " **************");
+
+                }
+
+                System.out.println("************ " + response.code() + " **************");
+
+            }
+
+            @Override
+            public void onFailure(Call<CityForecast> call, Throwable t) {
+                System.out.println("************ " + t.getCause() + " **************");
+                System.out.println("************ " + t.getMessage() + " **************");
+            }
+        });
+
+    }
+
     public void updateInfo() {
         mCityCurrentWeather.setText("BOA!");
     }
@@ -189,20 +242,20 @@ public class CityViewFragment extends Fragment {
     /**
      * Apresentar a informação da cidade obtida
      */
-    private void setCityInformation() {
+    private void setCityInformation(CityWeather cityWeather) {
 
-        String icon = mCityWeather.getWeather().get(0).getIcon();
+        String icon = cityWeather.getWeather().get(0).getIcon();
         Glide.with(mView)
                 .load("https://openweathermap.org/img/w/" + icon + ".png")
                 .into(mCityCurrentWeatherIcon);
 
-        mCityCurrentWeather.setText(mCityWeather.getWeather().get(0).getMain());
+        mCityCurrentWeather.setText(cityWeather.getWeather().get(0).getMain());
 
         switch (SettingsPreference.temperatureUnit) {
 
             case "C":
-                float tempMinC = mCityWeather.getMain().getTemp_min() - 273.15f;
-                float tempMaxC = mCityWeather.getMain().getTemp_max() - 273.15f;
+                float tempMinC = cityWeather.getMain().getTemp_min() - 273.15f;
+                float tempMaxC = cityWeather.getMain().getTemp_max() - 273.15f;
                 mCityLowTemperature.setText(String.format("%.2f", tempMinC));
                 mCityHighTemperature.setText(String.format("%.2f", tempMaxC));
                 mMinTemUnit.setText("ºC");
@@ -210,8 +263,8 @@ public class CityViewFragment extends Fragment {
                 break;
 
             case "F":
-                float tempMinF = (mCityWeather.getMain().getTemp_min() * (9/5)) + 32;
-                float tempMaxF = (mCityWeather.getMain().getTemp_max() * (9/5)) + 32;
+                float tempMinF = (cityWeather.getMain().getTemp_min() * (9/5)) + 32;
+                float tempMaxF = (cityWeather.getMain().getTemp_max() * (9/5)) + 32;
                 mCityLowTemperature.setText(String.format("%.2f", tempMinF));
                 mCityHighTemperature.setText(String.format("%.2f", tempMaxF));
                 mMinTemUnit.setText("ºF");
@@ -219,31 +272,128 @@ public class CityViewFragment extends Fragment {
                 break;
 
             case "K":
-                mCityLowTemperature.setText(String.format("%.2f", mCityWeather.getMain().getTemp_min()));
-                mCityHighTemperature.setText(String.format("%.2f", mCityWeather.getMain().getTemp_max()));
+                mCityLowTemperature.setText(String.format("%.2f", cityWeather.getMain().getTemp_min()));
+                mCityHighTemperature.setText(String.format("%.2f", cityWeather.getMain().getTemp_max()));
                 mMinTemUnit.setText("ºK");
                 mMaxTemUnit.setText("ºK");
                 break;
 
         }
 
-        mCityPressure.setText(String.format("%.2f", mCityWeather.getMain().getPressure()));
+        Date sunsetDate = new Date(cityWeather.getSys().getSunset() * 1000L);
+        mCitySunsetCountdown.setText(new SimpleDateFormat("hh:mm").format(sunsetDate));
+
+        Date sunriseDate = new Date(cityWeather.getSys().getSunrise() * 1000L);
+        mCitySunriseCountdown.setText(new SimpleDateFormat("hh:mm").format(sunriseDate));
+
+        mCityPressure.setText(String.format("%.2f", cityWeather.getMain().getPressure()));
 
         switch (SettingsPreference.windUnit) {
 
             case "KMH":
-                float speedKMH = mCityWeather.getWind().getSpeed() * 3.6f;
+                float speedKMH = cityWeather.getWind().getSpeed() * 3.6f;
                 mCityWindValue.setText(String.format("%.2f", speedKMH));
                 mWindCityUnit.setText("Km/h");
                 break;
 
             case "MS":
-                mCityWindValue.setText(String.format("%.2f", mCityWeather.getWind().getSpeed()));
+                mCityWindValue.setText(String.format("%.2f", cityWeather.getWind().getSpeed()));
                 mWindCityUnit.setText("m/s");
                 break;
         }
 
-        mCityHumidityValue.setText(String.format("%.2f", mCityWeather.getMain().getHumidity()));
+        mCityHumidityValue.setText(String.format("%.2f", cityWeather.getMain().getHumidity()));
+    }
+
+    private void setCityInformationForecast(CityForecast weather) {
+
+        mCityInfoTimeBar.setEnabled(true);
+        mCityInfoTimeBar.setOnProgressChangedListener(new BubbleSeekBar.OnProgressChangedListener() {
+            @Override
+            public void onProgressChanged(BubbleSeekBar bubbleSeekBar, int progress, float progressFloat, boolean fromUser) {
+
+                if (progress == 0) {
+
+                    getActualCity(mLatitude, mLongitude);
+
+                } else {
+
+                    WeatherForecast forecast = weather.getList().get(progress - 1);
+                    setForecastInformation(forecast);
+
+                }
+
+            }
+
+            @Override
+            public void getProgressOnActionUp(BubbleSeekBar bubbleSeekBar, int progress, float progressFloat) {
+
+            }
+
+            @Override
+            public void getProgressOnFinally(BubbleSeekBar bubbleSeekBar, int progress, float progressFloat, boolean fromUser) {
+
+            }
+        });
+
+    }
+
+    private void setForecastInformation(WeatherForecast forecast) {
+
+        String icon = forecast.getWeather().get(0).getIcon();
+        Glide.with(mView)
+                .load("https://openweathermap.org/img/w/" + icon + ".png")
+                .into(mCityCurrentWeatherIcon);
+
+        mCityCurrentWeather.setText(forecast.getWeather().get(0).getMain());
+
+        switch (SettingsPreference.temperatureUnit) {
+
+            case "C":
+                float tempMinC = forecast.getMain().getTemp_min() - 273.15f;
+                float tempMaxC = forecast.getMain().getTemp_max() - 273.15f;
+                mCityLowTemperature.setText(String.format("%.2f", tempMinC));
+                mCityHighTemperature.setText(String.format("%.2f", tempMaxC));
+                mMinTemUnit.setText("ºC");
+                mMaxTemUnit.setText("ºC");
+                break;
+
+            case "F":
+                float tempMinF = (forecast.getMain().getTemp_min() * (9/5)) + 32;
+                float tempMaxF = (forecast.getMain().getTemp_max() * (9/5)) + 32;
+                mCityLowTemperature.setText(String.format("%.2f", tempMinF));
+                mCityHighTemperature.setText(String.format("%.2f", tempMaxF));
+                mMinTemUnit.setText("ºF");
+                mMaxTemUnit.setText("ºF");
+                break;
+
+            case "K":
+                mCityLowTemperature.setText(String.format("%.2f", forecast.getMain().getTemp_min()));
+                mCityHighTemperature.setText(String.format("%.2f", forecast.getMain().getTemp_max()));
+                mMinTemUnit.setText("ºK");
+                mMaxTemUnit.setText("ºK");
+                break;
+
+        }
+
+        mCityPressure.setText(String.format("%.2f", forecast.getMain().getPressure()));
+
+        switch (SettingsPreference.windUnit) {
+
+            case "KMH":
+                float speedKMH = forecast.getWind().getSpeed() * 3.6f;
+                mCityWindValue.setText(String.format("%.2f", speedKMH));
+                mWindCityUnit.setText("Km/h");
+                break;
+
+            case "MS":
+                mCityWindValue.setText(String.format("%.2f", forecast.getWind().getSpeed()));
+                mWindCityUnit.setText("m/s");
+                break;
+        }
+
+        mCityHumidityValue.setText(String.format("%.2f", forecast.getMain().getHumidity()));
+
     }
 
     @Override

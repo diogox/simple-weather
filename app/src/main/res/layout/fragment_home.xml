@@ -168,7 +168,7 @@
                     android:layout_marginLeft="8dp"
                     android:layout_weight="0"
                     android:gravity="center_vertical"
-                    android:text="Em " />
+                    android:text="" />
 
                 <TextView
                     android:id="@+id/citySunsetCountdown"
@@ -176,7 +176,12 @@
                     android:layout_height="match_parent"
                     android:layout_weight="0"
                     android:gravity="center_vertical"
+<<<<<<< HEAD
                     android:text="..."
+=======
+                    android:layout_marginHorizontal="3dp"
+                    android:text="2"
+>>>>>>> 214bc954e7dd1413fca772d4b860488430bfa051
                     android:textColor="@android:color/black"
                     android:textStyle="bold" />
 
@@ -186,7 +191,8 @@
                     android:layout_marginLeft="2dp"
                     android:layout_weight="0"
                     android:gravity="center_vertical"
-                    android:text="h" />
+                    android:textStyle="bold"
+                    android:text="pm" />
             </LinearLayout>
 
             <LinearLayout
@@ -209,7 +215,7 @@
                     android:layout_marginLeft="8dp"
                     android:layout_weight="0"
                     android:gravity="center_vertical"
-                    android:text="Em " />
+                    android:text="" />
 
                 <TextView
                     android:id="@+id/citySunriseCountdown"
@@ -217,7 +223,12 @@
                     android:layout_height="match_parent"
                     android:layout_weight="0"
                     android:gravity="center_vertical"
+<<<<<<< HEAD
                     android:text="..."
+=======
+                    android:layout_marginHorizontal="3dp"
+                    android:text="18"
+>>>>>>> 214bc954e7dd1413fca772d4b860488430bfa051
                     android:textColor="@android:color/black"
                     android:textStyle="bold" />
 
@@ -227,7 +238,8 @@
                     android:layout_marginLeft="2dp"
                     android:layout_weight="0"
                     android:gravity="center_vertical"
-                    android:text="h" />
+                    android:textStyle="bold"
+                    android:text="am" />
             </LinearLayout>
 
         </LinearLayout>
@@ -407,11 +419,11 @@
         android:layout_marginBottom="32dp"
         app:bsb_bubble_color="@android:color/holo_orange_dark"
         app:bsb_bubble_text_color="@color/colorPrimaryDark"
-        app:bsb_max="23"
+        app:bsb_max="5"
         app:bsb_min="0"
         app:bsb_progress="0"
         app:bsb_second_track_color="@android:color/holo_orange_light"
-        app:bsb_section_count="23"
+        app:bsb_section_count="5"
         app:bsb_section_text_position="bottom_sides"
         app:bsb_seek_step_section="true"
         app:bsb_show_section_text="true"
