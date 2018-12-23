@@ -176,12 +176,8 @@
                     android:layout_height="match_parent"
                     android:layout_weight="0"
                     android:gravity="center_vertical"
-<<<<<<< HEAD
                     android:text="..."
-=======
                     android:layout_marginHorizontal="3dp"
-                    android:text="2"
->>>>>>> 214bc954e7dd1413fca772d4b860488430bfa051
                     android:textColor="@android:color/black"
                     android:textStyle="bold" />
 
@@ -223,12 +219,8 @@
                     android:layout_height="match_parent"
                     android:layout_weight="0"
                     android:gravity="center_vertical"
-<<<<<<< HEAD
                     android:text="..."
-=======
                     android:layout_marginHorizontal="3dp"
-                    android:text="18"
->>>>>>> 214bc954e7dd1413fca772d4b860488430bfa051
                     android:textColor="@android:color/black"
                     android:textStyle="bold" />
 
