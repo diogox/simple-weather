@@ -347,7 +347,7 @@ public class CityViewFragment extends Fragment {
                 .load("https://openweathermap.org/img/w/" + icon + ".png")
                 .into(mCityCurrentWeatherIcon);
 
-        mCityCurrentWeather.setText(forecast.getWeather().get(0).getMain());
+        mCityCurrentWeather.setText(forecast.getWeather().get(0).getDescription());
 
         switch (SettingsPreference.temperatureUnit) {
 
