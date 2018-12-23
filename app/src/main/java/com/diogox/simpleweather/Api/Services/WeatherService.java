@@ -14,12 +14,13 @@ public interface WeatherService {
     String MY_API_KEY = "03a4cb43f61a800aa6c7956fba0fe54b";
 
     @GET("weather")
-    Call<CityWeather> getWeatherByCityId(@Query("id") String cityId, @Query("appId") String appId);
+    Call<CityWeather> getWeatherByCityId(@Query("id") String cityId, @Query("lang") String lang, @Query("appId") String appId);
 
     @GET("weather")
     Call<CityWeather> getWeatherByCityCoordinates(
             @Query("lat") String cityLat,
             @Query("lon") String cityLon,
+            @Query("lang") String lang,
             @Query("appid") String appid
     );
 
@@ -27,6 +28,7 @@ public interface WeatherService {
     Call<CityForecast> getWeatherForecast(
             @Query("lat") String cityLat,
             @Query("lon") String cityLon,
+            @Query("lang") String lang,
             @Query("appid") String appid
     );
 

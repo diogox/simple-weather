@@ -158,6 +158,7 @@ public class CityViewFragment extends Fragment {
         Call<CityWeather> call = WeatherClient.weatherService().getWeatherByCityCoordinates(
                 latitude,
                 longitude,
+                "pt",
                 WeatherService.MY_API_KEY
         );
         call.enqueue(new Callback<CityWeather>() {
@@ -202,6 +203,7 @@ public class CityViewFragment extends Fragment {
         Call<CityForecast> call = WeatherClient.weatherService().getWeatherForecast(
                 latitude,
                 longitude,
+                "pt",
                 WeatherService.MY_API_KEY
         );
         call.enqueue(new Callback<CityForecast>() {
@@ -249,7 +251,7 @@ public class CityViewFragment extends Fragment {
                 .load("https://openweathermap.org/img/w/" + icon + ".png")
                 .into(mCityCurrentWeatherIcon);
 
-        mCityCurrentWeather.setText(cityWeather.getWeather().get(0).getMain());
+        mCityCurrentWeather.setText(cityWeather.getWeather().get(0).getDescription());
 
         switch (SettingsPreference.temperatureUnit) {
 
