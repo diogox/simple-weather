@@ -1,6 +1,7 @@
 package com.diogox.simpleweather;
 
 import android.arch.lifecycle.LifecycleOwner;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
@@ -14,6 +15,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.AttributeSet;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -78,6 +80,7 @@ public class MainActivity extends AppCompatActivity
     private String mCurrentCityLon;
 
     private SharedPreferences mPreferences;
+    private static boolean isFirstStartup = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -177,10 +180,14 @@ public class MainActivity extends AppCompatActivity
         };
         fragmentManager.addOnBackStackChangedListener(onBackStackChangedListener);
 
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.add(R.id.fragment_container, homeFragment);
-        fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.commit();
+        if (isFirstStartup) {
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.fragment_container, homeFragment);
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commit();
+            isFirstStartup = false;
+        }
+
         mCurrentCityLat = homeFragment.getCityLat();
         mCurrentCityLon = homeFragment.getCityLon();
 
