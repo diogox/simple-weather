@@ -12,6 +12,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -315,6 +316,23 @@ public class MainActivity extends AppCompatActivity
                 }
             }
         });
+
+
+        // TODO: DELETE THIS
+        startService();
+    }
+
+    public void startService() {
+        Intent serviceIntent = new Intent(this, AlertService.class);
+        startService(serviceIntent);
+
+        // For starting service without the app open
+        //ContextCompat.startForegroundService(this, serviceIntent);
+    }
+
+    public void stopService() {
+        Intent serviceIntent = new Intent(this, AlertService.class);
+        stopService(serviceIntent);
     }
 
     @Override
