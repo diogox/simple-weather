@@ -45,7 +45,7 @@
             android:layout_marginLeft="12dp"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="Céu Limpo" />
+            android:text="..." />
     </LinearLayout>
 
     <LinearLayout
@@ -90,7 +90,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginLeft="4dp"
                     android:gravity="center_vertical"
-                    android:text="35"
+                    android:text="..."
                     android:textColor="@android:color/black"
                     android:textStyle="bold" />
 
@@ -125,7 +125,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="0"
                     android:gravity="center_vertical"
-                    android:text="37"
+                    android:text="..."
                     android:textColor="@android:color/black"
                     android:textStyle="bold" />
 
@@ -176,7 +176,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="0"
                     android:gravity="center_vertical"
-                    android:text="2"
+                    android:text="..."
                     android:textColor="@android:color/black"
                     android:textStyle="bold" />
 
@@ -217,7 +217,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="0"
                     android:gravity="center_vertical"
-                    android:text="18"
+                    android:text="..."
                     android:textColor="@android:color/black"
                     android:textStyle="bold" />
 
@@ -260,7 +260,7 @@
                     android:layout_marginLeft="8dp"
                     android:layout_weight="0"
                     android:gravity="center_vertical"
-                    android:text="1007"
+                    android:text="..."
                     android:textColor="@android:color/black"
                     android:textStyle="bold" />
 
@@ -298,7 +298,7 @@
                     android:layout_marginStart="4dp"
                     android:layout_marginLeft="4dp"
                     android:gravity="center_vertical"
-                    android:text="1.32"
+                    android:text="..."
                     android:textColor="@android:color/black"
                     android:textStyle="bold" />
 
@@ -378,7 +378,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginLeft="4dp"
                     android:gravity="center_vertical"
-                    android:text="64"
+                    android:text="..."
                     android:textColor="@android:color/black"
                     android:textStyle="bold" />
 
