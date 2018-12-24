@@ -22,6 +22,9 @@ public interface CityDAO {
     @Query("SELECT * FROM city WHERE id LIKE :id")
     City findById(String id);
 
+    @Query("SELECT * FROM city")
+    List<City> getCities();
+
     @Insert(onConflict = REPLACE)
     void insertCity(City city);
 
