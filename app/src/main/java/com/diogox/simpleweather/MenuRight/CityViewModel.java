@@ -39,4 +39,6 @@ public class CityViewModel extends AndroidViewModel {
     public City findCity(City city) {
         return cityDao.findById(city.getId());
     }
+
+    public List<City> getCities() { return cityDao.getCities(); }
 }
