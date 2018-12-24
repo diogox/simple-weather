@@ -10,26 +10,9 @@
     
     <string-array name="weather_params">
         <item>Temperatura</item>
-        <item>Precipitação</item>
+        <item>Humidade</item>
         <item>Vento</item>
-    </string-array>
-
-    <string-array name="weather_values_temp">
-        <item>Inferior a 0ºC</item>
-        <item>Entre 0 ºC e 15 ºC</item>
-        <item>Superior a 15 ºC</item>
-    </string-array>
-
-    <string-array name="weather_values_precip">
-        <item>Inferior a 50 %</item>
-        <item>Entre 50% e 90%</item>
-        <item>Superior a 90%</item>
-    </string-array>
-
-    <string-array name="weather_values_wind">
-        <item>Inferior a 5 m/s</item>
-        <item>Entre 5 m/s e 15 m/s</item>
-        <item>Superior a 15 m/s</item>
+        <item>Pressão Atmosférica</item>
     </string-array>
 
 </resources>

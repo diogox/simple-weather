@@ -16,14 +16,14 @@ import static android.arch.persistence.room.OnConflictStrategy.REPLACE;
 public interface AlertDAO {
 
     @Query("SELECT * FROM alert")
-    LiveData<List<City>> getAllAlerts();
+    LiveData<List<Alert>> getAllAlerts();
 
     @Insert(onConflict = REPLACE)
-    void insertCity(City city);
+    void insertAlert(Alert alert);
 
     @Insert
-    void insertAll(List<City> cities);
+    void insertAll(List<Alert> alerts);
 
     @Delete
-    void deleteCity(City city);
+    void deleteCity(Alert alert);
 }

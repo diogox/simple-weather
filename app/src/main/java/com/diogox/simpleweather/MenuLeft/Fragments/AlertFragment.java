@@ -6,14 +6,19 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
 
+import com.diogox.simpleweather.Api.Models.Database.Alerts.Alert;
+import com.diogox.simpleweather.Api.Models.Database.Alerts.AlertType;
+import com.diogox.simpleweather.Api.Models.Database.AppDb;
 import com.diogox.simpleweather.Api.Models.Database.Cities.City;
 import com.diogox.simpleweather.MenuRight.CityViewModel;
 import com.diogox.simpleweather.R;
@@ -28,8 +33,9 @@ import butterknife.ButterKnife;
 public class AlertFragment extends Fragment implements AdapterView.OnItemSelectedListener, View.OnClickListener {
 
     @BindView(R.id.button_choose_city) Button chooseCity;
-    @BindView(R.id.spinner_parameter) Spinner spinnerParameter;
-    @BindView(R.id.spinner_parameter_value) Spinner spinnerParameterValue;
+    @BindView(R.id.spinner_parameter) Spinner param;
+    @BindView(R.id.minParamValue) EditText minParamValue;
+    @BindView(R.id.maxParamValue) EditText maxParamValue;
     @BindView(R.id.button_create_alert) Button createAlert;
 
     private Context context;
@@ -37,6 +43,7 @@ public class AlertFragment extends Fragment implements AdapterView.OnItemSelecte
     private CityViewModel mCityViewModel;
 
     private City citySelected;
+    private AlertType alertType = AlertType.Temperature;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -60,8 +67,26 @@ public class AlertFragment extends Fragment implements AdapterView.OnItemSelecte
                 android.R.layout.simple_spinner_item
         );
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerParameter.setAdapter(adapter);
-        spinnerParameter.setOnItemSelectedListener(this);
+        param.setAdapter(adapter);
+        param.setOnItemSelectedListener(this);
+
+        createAlert.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                double minValue = Double.valueOf( minParamValue.getText().toString() );
+                double maxValue = Double.valueOf( maxParamValue.getText().toString() );
+
+                // Create alert
+                Alert alert = new Alert(citySelected, alertType, minValue, maxValue);
+
+                // Add alert
+                AppDb.getInstance(context).alertDAO().insertAlert(alert);
+
+                // TODO: Go back to list of alerts
+            }
+        });
+
+        AppDb.getInstance(context).alertDAO().getAllAlerts().observe(this, (alert) -> Log.d("ALERTS", "NEW ALERT ADDED!"));
 
         return mView;
     }
@@ -112,33 +137,27 @@ public class AlertFragment extends Fragment implements AdapterView.OnItemSelecte
         switch (position) {
 
             case 0:
-                ArrayAdapter<CharSequence> tempAdapter = ArrayAdapter.createFromResource(
-                        context,
-                        R.array.weather_values_temp,
-                        android.R.layout.simple_spinner_item
-                );
-                tempAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                spinnerParameterValue.setAdapter(tempAdapter);
+
+                // Set param type
+                alertType = AlertType.Temperature;
                 break;
 
             case 1:
-                ArrayAdapter<CharSequence> precipAdapter = ArrayAdapter.createFromResource(
-                        context,
-                        R.array.weather_values_precip,
-                        android.R.layout.simple_spinner_item
-                );
-                precipAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                spinnerParameterValue.setAdapter(precipAdapter);
+
+                // Set param type
+                alertType = AlertType.Humidity;
                 break;
 
             case 2:
-                ArrayAdapter<CharSequence> windAdapter = ArrayAdapter.createFromResource(
-                        context,
-                        R.array.weather_values_wind,
-                        android.R.layout.simple_spinner_item
-                );
-                windAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                spinnerParameterValue.setAdapter(windAdapter);
+
+                // Set param type
+                alertType = AlertType.WindSpeed;
+                break;
+
+            case 3:
+
+                // Set param type
+                alertType = AlertType.Pressure;
                 break;
 
         }

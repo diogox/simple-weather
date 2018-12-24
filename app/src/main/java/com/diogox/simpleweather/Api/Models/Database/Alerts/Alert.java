@@ -20,8 +20,6 @@ public class Alert {
     private double minValueTrigger;
     private double maxValueTrigger;
 
-    public Alert() {}
-
     public Alert(City city, AlertType valueType, double minValueTrigger, double maxValueTrigger) {
         this.city = city;
         this.valueType = valueType;
