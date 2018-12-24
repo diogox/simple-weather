@@ -20,16 +20,13 @@
       <change beforePath="$PROJECT_DIR$/.gradle/4.6/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.6/fileHashes/fileHashes.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/4.6/javaCompile/classAnalysis.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.6/javaCompile/classAnalysis.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/4.6/javaCompile/javaCompile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.6/javaCompile/javaCompile.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/4.6/javaCompile/taskHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.6/javaCompile/taskHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/4.6/taskHistory/taskHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.6/taskHistory/taskHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/4.6/taskHistory/taskHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.6/taskHistory/taskHistory.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/diogox/simpleweather/Api/Models/Database/Alerts/Alert.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/diogox/simpleweather/Api/Models/Database/Alerts/Alert.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/diogox/simpleweather/Api/Models/Database/Alerts/AlertDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/diogox/simpleweather/Api/Models/Database/Alerts/AlertDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/diogox/simpleweather/Api/Models/Database/AppDb.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/diogox/simpleweather/Api/Models/Database/AppDb.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/diogox/simpleweather/MenuLeft/Fragments/AlertFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/diogox/simpleweather/MenuLeft/Fragments/AlertFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_alert.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_alert.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -62,13 +59,36 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file leaf-file-name="MainActivity.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/diogox/simpleweather/MainActivity.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="127">
+              <caret line="198" column="43" selection-start-line="198" selection-start-column="38" selection-end-line="198" selection-end-column="43" />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="AppDb.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/diogox/simpleweather/Api/Models/Database/AppDb.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="228">
-              <caret line="20" column="25" selection-start-line="20" selection-start-column="25" selection-end-line="20" selection-end-column="25" />
+            <state relative-caret-position="156">
+              <caret line="16" column="16" selection-start-line="16" selection-start-column="16" selection-end-line="16" selection-end-column="16" />
               <folding>
                 <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Alert.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/diogox/simpleweather/Api/Models/Database/Alerts/Alert.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="367">
+              <caret line="34" column="35" selection-start-line="34" selection-start-column="35" selection-end-line="34" selection-end-column="35" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#1073#1074#0" expanded="true" />
+                <element signature="e#1100#1101#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -99,8 +119,8 @@
       <file leaf-file-name="AlertFragment.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/diogox/simpleweather/MenuLeft/Fragments/AlertFragment.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="360">
-              <caret line="84" column="50" selection-start-line="84" selection-start-column="50" selection-end-line="84" selection-end-column="50" />
+            <state relative-caret-position="288">
+              <caret line="118" column="45" selection-start-line="118" selection-start-column="45" selection-end-line="118" selection-end-column="45" />
             </state>
           </provider>
         </entry>
@@ -123,34 +143,6 @@
           </provider>
           <provider editor-type-id="android-designer2">
             <state />
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Alert.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/diogox/simpleweather/Api/Models/Database/Alerts/Alert.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="124">
-              <caret line="20" column="35" selection-start-line="20" selection-start-column="35" selection-end-line="20" selection-end-column="35" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#821#822#0" expanded="true" />
-                <element signature="e#851#852#0" expanded="true" />
-                <element signature="e#897#898#0" expanded="true" />
-                <element signature="e#935#936#0" expanded="true" />
-                <element signature="e#964#965#0" expanded="true" />
-                <element signature="e#991#992#0" expanded="true" />
-                <element signature="e#1029#1030#0" expanded="true" />
-                <element signature="e#1061#1062#0" expanded="true" />
-                <element signature="e#1100#1101#0" expanded="true" />
-                <element signature="e#1132#1133#0" expanded="true" />
-                <element signature="e#1185#1186#0" expanded="true" />
-                <element signature="e#1227#1228#0" expanded="true" />
-                <element signature="e#1269#1270#0" expanded="true" />
-                <element signature="e#1307#1308#0" expanded="true" />
-                <element signature="e#1465#1466#0" expanded="true" />
-                <element signature="e#1503#1504#0" expanded="true" />
-              </folding>
-            </state>
           </provider>
         </entry>
       </file>
@@ -2452,14 +2444,14 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/diogox/simpleweather/MenuLeft/Fragments/CityViewFragment.java" />
         <option value="$PROJECT_DIR$/local.properties" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/diogox/simpleweather/Api/Models/Database/Alerts/AlertType.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/diogox/simpleweather/Api/Models/Database/AppDb.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/diogox/simpleweather/Api/Models/Database/Cities/CityDAO.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/diogox/simpleweather/Api/Models/Database/Cities/City.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/diogox/simpleweather/Api/Models/Database/Alerts/AlertConverter.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/diogox/simpleweather/Api/Models/Database/Alerts/Alert.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/fragment_alert.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/values/strings.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/diogox/simpleweather/Api/Models/Database/Alerts/AlertDAO.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/diogox/simpleweather/Api/Models/Database/AppDb.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/diogox/simpleweather/Api/Models/Database/Alerts/Alert.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/diogox/simpleweather/MenuLeft/Fragments/AlertFragment.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/diogox/simpleweather/Api/PlacesClient.java" />
       </list>
@@ -2998,23 +2990,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_alert.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1086">
-          <caret line="83" column="50" selection-start-line="83" selection-start-column="33" selection-end-line="83" selection-end-column="50" />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer2">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/diogox/simpleweather/Api/Models/Database/Alerts/AlertType.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="108">
-          <caret line="6" column="12" selection-start-line="6" selection-start-column="12" selection-end-line="6" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/values/array.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-60" />
@@ -3034,28 +3009,48 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/diogox/simpleweather/Api/Models/Database/Alerts/Alert.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_alert.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="124">
-          <caret line="20" column="35" selection-start-line="20" selection-start-column="35" selection-end-line="20" selection-end-column="35" />
+        <state relative-caret-position="-1086">
+          <caret line="83" column="50" selection-start-line="83" selection-start-column="33" selection-end-line="83" selection-end-column="50" />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer2">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/diogox/simpleweather/Api/Models/Database/Alerts/AlertType.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="108">
+          <caret line="6" column="12" selection-start-line="6" selection-start-column="12" selection-end-line="6" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/build/generated/source/apt/debug/com/diogox/simpleweather/Api/Models/Database/Alerts/AlertDAO_Impl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="160">
+          <caret line="50" column="39" selection-start-line="50" selection-start-column="39" selection-end-line="50" selection-end-column="39" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/diogox/simpleweather/Api/Models/Database/AppDb.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="156">
+          <caret line="16" column="16" selection-start-line="16" selection-start-column="16" selection-end-line="16" selection-end-column="16" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#821#822#0" expanded="true" />
-            <element signature="e#851#852#0" expanded="true" />
-            <element signature="e#897#898#0" expanded="true" />
-            <element signature="e#935#936#0" expanded="true" />
-            <element signature="e#964#965#0" expanded="true" />
-            <element signature="e#991#992#0" expanded="true" />
-            <element signature="e#1029#1030#0" expanded="true" />
-            <element signature="e#1061#1062#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/diogox/simpleweather/Api/Models/Database/Alerts/Alert.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="367">
+          <caret line="34" column="35" selection-start-line="34" selection-start-column="35" selection-end-line="34" selection-end-column="35" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1073#1074#0" expanded="true" />
             <element signature="e#1100#1101#0" expanded="true" />
-            <element signature="e#1132#1133#0" expanded="true" />
-            <element signature="e#1185#1186#0" expanded="true" />
-            <element signature="e#1227#1228#0" expanded="true" />
-            <element signature="e#1269#1270#0" expanded="true" />
-            <element signature="e#1307#1308#0" expanded="true" />
-            <element signature="e#1465#1466#0" expanded="true" />
-            <element signature="e#1503#1504#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -3067,20 +3062,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/diogox/simpleweather/Api/Models/Database/AppDb.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="228">
-          <caret line="20" column="25" selection-start-line="20" selection-start-column="25" selection-end-line="20" selection-end-column="25" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/diogox/simpleweather/MenuLeft/Fragments/AlertFragment.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="84" column="50" selection-start-line="84" selection-start-column="50" selection-end-line="84" selection-end-column="50" />
+        <state relative-caret-position="288">
+          <caret line="118" column="45" selection-start-line="118" selection-start-column="45" selection-end-line="118" selection-end-column="45" />
         </state>
       </provider>
     </entry>

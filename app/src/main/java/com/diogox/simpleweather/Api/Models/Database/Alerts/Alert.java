@@ -20,11 +20,19 @@ public class Alert {
     private double minValueTrigger;
     private double maxValueTrigger;
 
-    public Alert(City city, AlertType valueType, double minValueTrigger, double maxValueTrigger) {
+    public Alert(City city, AlertType valueType, Double minValueTrigger, Double maxValueTrigger) {
         this.city = city;
         this.valueType = valueType;
-        this.minValueTrigger = minValueTrigger;
-        this.maxValueTrigger = maxValueTrigger;
+
+        if (minValueTrigger != null)
+            this.minValueTrigger = minValueTrigger;
+        else
+            this.minValueTrigger = -999999;
+
+        if (maxValueTrigger != null)
+            this.maxValueTrigger = maxValueTrigger;
+        else
+            this.maxValueTrigger = 999999;
     }
 
     public long getAlertId() {

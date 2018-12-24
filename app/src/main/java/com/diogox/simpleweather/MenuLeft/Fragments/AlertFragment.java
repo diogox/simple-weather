@@ -73,8 +73,20 @@ public class AlertFragment extends Fragment implements AdapterView.OnItemSelecte
         createAlert.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                double minValue = Double.valueOf( minParamValue.getText().toString() );
-                double maxValue = Double.valueOf( maxParamValue.getText().toString() );
+
+                Double minValue;
+                try {
+                    minValue = Double.valueOf(minParamValue.getText().toString());
+                } catch(NumberFormatException nfe) {
+                    minValue = null;
+                }
+
+                Double maxValue;
+                try {
+                    maxValue = Double.valueOf(maxParamValue.getText().toString());
+                } catch(NumberFormatException nfe) {
+                    maxValue = null;
+                }
 
                 // Create alert
                 Alert alert = new Alert(citySelected, alertType, minValue, maxValue);
@@ -86,7 +98,7 @@ public class AlertFragment extends Fragment implements AdapterView.OnItemSelecte
             }
         });
 
-        AppDb.getInstance(context).alertDAO().getAllAlerts().observe(this, (alert) -> Log.d("ALERTS", "NEW ALERT ADDED!"));
+        AppDb.getInstance(context).alertDAO().getAllAlerts().observe(this, (alerts) -> Log.d("ALERTS", "NEW ALERT ADDED!"));
 
         return mView;
     }
@@ -104,7 +116,7 @@ public class AlertFragment extends Fragment implements AdapterView.OnItemSelecte
             String[] cityNames = new String[cityList.size()];
 
             for (int i = 0; i < cityNames.length; i++) {
-                cityNames[i] = cityList.get(0).getName();
+                cityNames[i] = cityList.get(i).getName();
             }
 
             AlertDialog.Builder mBuilder = new AlertDialog.Builder(context);

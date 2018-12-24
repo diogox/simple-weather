@@ -12,7 +12,7 @@ import com.diogox.simpleweather.Api.Models.Database.Alerts.AlertDAO;
 import com.diogox.simpleweather.Api.Models.Database.Cities.City;
 import com.diogox.simpleweather.Api.Models.Database.Cities.CityDAO;
 
-@Database(entities = {City.class, Alert.class}, version = 4)
+@Database(entities = {City.class, Alert.class}, version = 5)
 @TypeConverters(AlertConverter.class)
 public abstract class AppDb extends RoomDatabase {
     private static AppDb INSTANCE;
