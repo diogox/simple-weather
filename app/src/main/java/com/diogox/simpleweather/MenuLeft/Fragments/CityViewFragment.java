@@ -1,4 +1,4 @@
-﻿package com.diogox.simpleweather.MenuLeft.Fragments;
+package com.diogox.simpleweather.MenuLeft.Fragments;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -14,8 +14,8 @@ import com.bumptech.glide.Glide;
 import com.diogox.simpleweather.Api.Models.Weather.City.CityWeather;
 import com.diogox.simpleweather.Api.Models.Weather.Forecast.CityForecast;
 import com.diogox.simpleweather.Api.Models.Weather.Forecast.WeatherForecast;
-import com.diogox.simpleweather.Api.WeatherClient;
 import com.diogox.simpleweather.Api.Services.WeatherService;
+import com.diogox.simpleweather.Api.WeatherClient;
 import com.diogox.simpleweather.MenuLeft.Location.GPSLocation;
 import com.diogox.simpleweather.MenuLeft.Preferences.SettingsPreference;
 import com.diogox.simpleweather.R;
@@ -23,6 +23,7 @@ import com.xw.repo.BubbleSeekBar;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -72,6 +73,9 @@ public class CityViewFragment extends Fragment {
 
         ButterKnife.bind(this, mView);
 
+        int actualHour = new Date().getHours();
+
+        mCityInfoTimeBar.setProgress(actualHour);
         mCityInfoTimeBar.setEnabled(false);
 
         // Get info passed into the fragment, if there is any.
@@ -309,20 +313,36 @@ public class CityViewFragment extends Fragment {
 
     private void setCityInformationForecast(CityForecast weather) {
 
+        int actualHour = new Date().getHours();
+        List<WeatherForecast> list = weather.getList();
+
         mCityInfoTimeBar.setEnabled(true);
         mCityInfoTimeBar.setOnProgressChangedListener(new BubbleSeekBar.OnProgressChangedListener() {
             @Override
             public void onProgressChanged(BubbleSeekBar bubbleSeekBar, int progress, float progressFloat, boolean fromUser) {
 
-                if (progress == 0) {
+                if (progress == actualHour) {
 
                     getActualCity(mLatitude, mLongitude);
 
                 } else {
 
-                    WeatherForecast forecast = weather.getList().get(progress - 1);
-                    setForecastInformation(forecast);
+                    WeatherForecast forecast = null;
 
+                    for (int i = 0; i < list.size(); i++) {
+                        int hour = new Date(list.get(i).getDt() * 1000L).getHours();
+
+                        int day = new Date().getDay();
+                        int dayForecast = new Date(list.get(i).getDt() * 1000L).getDay();
+
+                        if ( (hour == progress) && (day == dayForecast) ) {
+                            forecast = list.get(i);
+                            break;
+                        }
+                    }
+
+                    if (forecast != null)
+                        setForecastInformation(forecast);
                 }
 
             }
@@ -406,4 +426,5 @@ public class CityViewFragment extends Fragment {
         outState.putString("lat", mLatitude);
         outState.putString("imgUrl", mImageURL);
     }
+
 }
