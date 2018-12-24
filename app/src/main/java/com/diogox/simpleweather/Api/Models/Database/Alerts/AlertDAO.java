@@ -18,6 +18,9 @@ public interface AlertDAO {
     @Query("SELECT * FROM alert")
     LiveData<List<Alert>> getAllAlerts();
 
+    @Query("SELECT * FROM alert")
+    List<Alert> getAlerts();
+
     @Insert(onConflict = REPLACE)
     void insertAlert(Alert alert);
 
@@ -25,5 +28,5 @@ public interface AlertDAO {
     void insertAll(List<Alert> alerts);
 
     @Delete
-    void deleteCity(Alert alert);
+    void deleteAlert(Alert alert);
 }

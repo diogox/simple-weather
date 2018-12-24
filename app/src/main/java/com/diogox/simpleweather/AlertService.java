@@ -10,7 +10,6 @@ import android.support.v4.app.NotificationCompat;
 
 import static com.diogox.simpleweather.App.CHANNEL_ID;
 
-// TODO: Use this to show notification with current weather upon user activation
 public class AlertService extends Service {
 
     @Override
@@ -20,7 +19,7 @@ public class AlertService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        String content = "Weather is great!";
+        String content = intent.getStringExtra("message");
 
         Intent notificationIntent = new Intent(this, MainActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this,

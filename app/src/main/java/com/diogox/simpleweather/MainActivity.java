@@ -317,12 +317,7 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-
-        // TODO: pass alerts from database into the job
         AlertJob.scheduleJob();
-
-        // TODO: DELETE THIS
-        startService();
     }
 
     public void startService() {
