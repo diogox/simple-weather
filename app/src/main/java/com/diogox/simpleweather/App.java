@@ -5,6 +5,8 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.os.Build;
 
+import com.evernote.android.job.JobManager;
+
 public class App extends Application {
     public static final String CHANNEL_ID = "weatherServiceChannel";
 
@@ -13,6 +15,7 @@ public class App extends Application {
         super.onCreate();
 
         createNotificationChannel();
+        JobManager.create(this).addJobCreator(new AlertJobCreator());
     }
 
     private void createNotificationChannel() {

@@ -10,6 +10,7 @@ import android.support.v4.app.NotificationCompat;
 
 import static com.diogox.simpleweather.App.CHANNEL_ID;
 
+// TODO: Use this to show notification with current weather upon user activation
 public class AlertService extends Service {
 
     @Override
@@ -33,6 +34,8 @@ public class AlertService extends Service {
                 .setContentText(content)
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setContentIntent(pendingIntent)
+                .setOngoing(false)
+                .setAutoCancel(true)
                 .build();
 
         startForeground(1, notification);
