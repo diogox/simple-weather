@@ -1,4 +1,4 @@
-package com.diogox.simpleweather.MenuLeft.Fragments;
+﻿package com.diogox.simpleweather.MenuLeft.Fragments;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -283,10 +283,10 @@ public class CityViewFragment extends Fragment {
         }
 
         Date sunsetDate = new Date(cityWeather.getSys().getSunset() * 1000L);
-        mCitySunsetCountdown.setText(new SimpleDateFormat("hh:mm").format(sunsetDate));
+        mCitySunsetCountdown.setText(new SimpleDateFormat("HH:mm").format(sunsetDate));
 
         Date sunriseDate = new Date(cityWeather.getSys().getSunrise() * 1000L);
-        mCitySunriseCountdown.setText(new SimpleDateFormat("hh:mm").format(sunriseDate));
+        mCitySunriseCountdown.setText(new SimpleDateFormat("HH:mm").format(sunriseDate));
 
         mCityPressure.setText(String.format("%.2f", cityWeather.getMain().getPressure()));
 

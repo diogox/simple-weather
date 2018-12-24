@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -188,7 +188,7 @@
                     android:layout_weight="0"
                     android:gravity="center_vertical"
                     android:textStyle="bold"
-                    android:text="pm" />
+                    android:text="h" />
             </LinearLayout>
 
             <LinearLayout
@@ -231,7 +231,7 @@
                     android:layout_weight="0"
                     android:gravity="center_vertical"
                     android:textStyle="bold"
-                    android:text="am" />
+                    android:text="h" />
             </LinearLayout>
 
         </LinearLayout>
