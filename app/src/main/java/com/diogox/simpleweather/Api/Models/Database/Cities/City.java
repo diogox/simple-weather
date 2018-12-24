@@ -4,12 +4,9 @@ import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
-import java.util.Arrays;
-import java.util.List;
-
 @Entity
 public class City {
-    private @NonNull @PrimaryKey String id;
+    private @NonNull @PrimaryKey String cityId;
     private String name;
     private String countryCode;
     private String lat;
@@ -17,8 +14,8 @@ public class City {
     private String photoUrl;
     private boolean isFavorite;
 
-    public City(String id, String name, String countryCode, String lat, String lon, String photoUrl) {
-        this.id = id;
+    public City(String cityId, String name, String countryCode, String lat, String lon, String photoUrl) {
+        this.cityId = cityId;
         this.name = name;
         this.countryCode = countryCode;
         this.lat = lat;
@@ -27,12 +24,12 @@ public class City {
         this.isFavorite = false;
     }
 
-    public String getId() {
-        return id;
+    public String getCityId() {
+        return cityId;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setCityId(String id) {
+        this.cityId = id;
     }
 
     public String getName() {
