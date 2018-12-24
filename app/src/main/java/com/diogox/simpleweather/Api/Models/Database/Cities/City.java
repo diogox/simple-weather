@@ -82,12 +82,4 @@ public class City {
     public void setFavorite(boolean favorite) {
         isFavorite = favorite;
     }
-
-    public static List<City> populateData() {
-        return Arrays.asList(new City[]{
-                new City("12341234", "Felgueiras", "PT", "", "", ""),
-                new City("12341235", "Gondomar", "PT", "", "", ""),
-                new City("12341236", "Gondomar", "ES", "", "", ""),
-        });
-    }
 }

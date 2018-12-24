@@ -24,24 +24,9 @@ public abstract class AppDb extends RoomDatabase {
                     context.getApplicationContext(),
                     AppDb.class, "WeatherApp.db"
                 )
-                .addCallback(new Callback() {
-                    @Override
-                    public void onCreate(@NonNull SupportSQLiteDatabase db) {
-                        super.onCreate(db);
-                        Executors.newSingleThreadScheduledExecutor().execute(new Runnable() {
-                            @Override
-                            public void run() {
-                                getInstance(context).cityDAO().insertAll(City.populateData());
-                            }
-                        });
-                    }
-                })
                 .fallbackToDestructiveMigration()
                 .allowMainThreadQueries()
                 .build();
-
-            // TODO: Remove this!!
-            //getInstance(context).cityDAO().insertAll(City.populateData());
         }
         return INSTANCE;
     }
