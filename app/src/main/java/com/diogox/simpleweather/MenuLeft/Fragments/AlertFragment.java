@@ -15,6 +15,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.diogox.simpleweather.Api.Models.Database.Alerts.Alert;
 import com.diogox.simpleweather.Api.Models.Database.Alerts.AlertType;
@@ -88,13 +89,23 @@ public class AlertFragment extends Fragment implements AdapterView.OnItemSelecte
                     maxValue = null;
                 }
 
-                // Create alert
-                Alert alert = new Alert(citySelected, alertType, minValue, maxValue);
+                if (citySelected != null) {
 
-                // Add alert
-                AppDb.getInstance(context).alertDAO().insertAlert(alert);
+                    // Create alert
+                    Alert alert = new Alert(citySelected, alertType, minValue, maxValue);
 
-                // TODO: Go back to list of alerts
+                    // Add alert
+                    AppDb.getInstance(context).alertDAO().insertAlert(alert);
+
+                    // TODO: Go back to list of alerts
+
+                } else {
+
+                    chooseCity.setError("Não definido");
+                    Toast.makeText(context, "Não definiu a cidade do alerta", Toast.LENGTH_SHORT).show();
+
+                }
+
             }
         });
 
@@ -113,31 +124,39 @@ public class AlertFragment extends Fragment implements AdapterView.OnItemSelecte
 
             List<City> cityList = mCityViewModel.getCities();
 
-            String[] cityNames = new String[cityList.size()];
+            if (!cityList.isEmpty()) {
 
-            for (int i = 0; i < cityNames.length; i++) {
-                cityNames[i] = cityList.get(i).getName();
+                String[] cityNames = new String[cityList.size()];
+
+                for (int i = 0; i < cityNames.length; i++) {
+                    cityNames[i] = cityList.get(i).getName();
+                }
+
+                AlertDialog.Builder mBuilder = new AlertDialog.Builder(context);
+                mBuilder.setTitle("Escolha a cidade:");
+                mBuilder.setSingleChoiceItems(cityNames, -1, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int i) {
+
+                        citySelected = cityList.get(i);
+                        dialog.dismiss();
+
+                    }
+                });
+                mBuilder.setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+                AlertDialog dialog = mBuilder.create();
+                dialog.show();
+
+            } else {
+
+                Toast.makeText(context, "Não possui cidades favoritas", Toast.LENGTH_SHORT).show();
+
             }
-
-            AlertDialog.Builder mBuilder = new AlertDialog.Builder(context);
-            mBuilder.setTitle("Escolha a cidade:");
-            mBuilder.setSingleChoiceItems(cityNames, -1, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int i) {
-
-                    citySelected = cityList.get(i);
-                    dialog.dismiss();
-
-                }
-            });
-            mBuilder.setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.cancel();
-                }
-            });
-            AlertDialog dialog = mBuilder.create();
-            dialog.show();
 
         }
 
