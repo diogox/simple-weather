@@ -1,6 +1,9 @@
 package com.diogox.simpleweather;
 
+import android.app.AlarmManager;
+import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.support.annotation.NonNull;
 
 import com.diogox.simpleweather.Api.Models.Database.Alerts.Alert;
