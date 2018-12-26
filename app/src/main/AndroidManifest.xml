@@ -15,7 +15,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <uses-library android:name="org.apache.http.legacy" android:required="false"/>
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false" />
 
         <activity
             android:name=".MainActivity"
@@ -27,11 +29,20 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".SettingsActivity" />
+        <activity
+            android:name=".SettingsActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+
         <service android:name=".AlertService" />
 
-        <meta-data android:name="com.google.android.maps.v2.API_KEY"
+        <meta-data
+            android:name="com.google.android.maps.v2.API_KEY"
             android:value="AIzaSyA8BNsNHMouFfCmjbpNziNRejgcPcMtQoc" />
+
+        <activity
+            android:name=".NewAlertActivity"
+            android:label="@string/title_activity_new_alert"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

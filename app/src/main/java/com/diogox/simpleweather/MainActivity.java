@@ -180,7 +180,7 @@ public class MainActivity extends AppCompatActivity
         fragmentManager.addOnBackStackChangedListener(onBackStackChangedListener);
 
         if (isFirstStartup) {
-            showCurrentCityForecast();
+            //showCurrentCityForecast();
             isFirstStartup = false;
         }
 

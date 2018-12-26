@@ -7,12 +7,13 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_maps">MapsActivity</string>
-    
+
     <string-array name="weather_params">
         <item>Temperatura</item>
         <item>Humidade</item>
         <item>Vento</item>
         <item>Pressão Atmosférica</item>
     </string-array>
+    <string name="title_activity_new_alert">NewAlertActivity</string>
 
 </resources>

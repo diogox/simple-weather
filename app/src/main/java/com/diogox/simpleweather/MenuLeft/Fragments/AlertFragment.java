@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -22,6 +23,7 @@ import com.diogox.simpleweather.Api.Models.Database.Alerts.AlertType;
 import com.diogox.simpleweather.Api.Models.Database.AppDb;
 import com.diogox.simpleweather.Api.Models.Database.Cities.City;
 import com.diogox.simpleweather.MenuRight.CityViewModel;
+import com.diogox.simpleweather.NewAlertActivity;
 import com.diogox.simpleweather.R;
 import com.like.LikeButton;
 
@@ -31,20 +33,10 @@ import java.util.concurrent.atomic.AtomicReference;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class AlertFragment extends Fragment implements AdapterView.OnItemSelectedListener, View.OnClickListener {
-
-    @BindView(R.id.button_choose_city) Button chooseCity;
-    @BindView(R.id.spinner_parameter) Spinner param;
-    @BindView(R.id.minParamValue) EditText minParamValue;
-    @BindView(R.id.maxParamValue) EditText maxParamValue;
-    @BindView(R.id.button_create_alert) Button createAlert;
+public class AlertFragment extends Fragment {
 
     private Context context;
     private View mView;
-    private CityViewModel mCityViewModel;
-
-    private City citySelected;
-    private AlertType alertType = AlertType.Temperature;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -60,143 +52,9 @@ public class AlertFragment extends Fragment implements AdapterView.OnItemSelecte
 
         ButterKnife.bind(this, mView);
 
-        chooseCity.setOnClickListener(this);
-
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
-                context,
-                R.array.weather_params,
-                android.R.layout.simple_spinner_item
-        );
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        param.setAdapter(adapter);
-        param.setOnItemSelectedListener(this);
-
-        createAlert.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                Double minValue;
-                try {
-                    minValue = Double.valueOf(minParamValue.getText().toString());
-                } catch(NumberFormatException nfe) {
-                    minValue = null;
-                }
-
-                Double maxValue;
-                try {
-                    maxValue = Double.valueOf(maxParamValue.getText().toString());
-                } catch(NumberFormatException nfe) {
-                    maxValue = null;
-                }
-
-                if (citySelected != null) {
-
-                    // Create alert
-                    Alert alert = new Alert(citySelected, alertType, minValue, maxValue);
-
-                    // Add alert
-                    AppDb.getInstance(context).alertDAO().insertAlert(alert);
-
-                    // TODO: Go back to list of alerts
-
-                } else {
-
-                    chooseCity.setError("Não definido");
-                    Toast.makeText(context, "Não definiu a cidade do alerta", Toast.LENGTH_SHORT).show();
-
-                }
-
-            }
-        });
-
-        AppDb.getInstance(context).alertDAO().getAllAlerts().observe(this, (alerts) -> Log.d("ALERTS", "NEW ALERT ADDED!"));
 
         return mView;
     }
 
-    @Override
-    public void onClick(View v) {
 
-        if (v.getId() == R.id.button_choose_city) {
-
-            // Cities view model
-            mCityViewModel = ViewModelProviders.of(this).get(CityViewModel.class);
-
-            List<City> cityList = mCityViewModel.getCities();
-
-            if (!cityList.isEmpty()) {
-
-                String[] cityNames = new String[cityList.size()];
-
-                for (int i = 0; i < cityNames.length; i++) {
-                    cityNames[i] = cityList.get(i).getName();
-                }
-
-                AlertDialog.Builder mBuilder = new AlertDialog.Builder(context);
-                mBuilder.setTitle("Escolha a cidade:");
-                mBuilder.setSingleChoiceItems(cityNames, -1, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int i) {
-
-                        citySelected = cityList.get(i);
-                        dialog.dismiss();
-
-                    }
-                });
-                mBuilder.setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                    }
-                });
-                AlertDialog dialog = mBuilder.create();
-                dialog.show();
-
-            } else {
-
-                Toast.makeText(context, "Não possui cidades favoritas", Toast.LENGTH_SHORT).show();
-
-            }
-
-        }
-
-    }
-
-    @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-        switch (position) {
-
-            case 0:
-
-                // Set param type
-                alertType = AlertType.Temperature;
-                break;
-
-            case 1:
-
-                // Set param type
-                alertType = AlertType.Humidity;
-                break;
-
-            case 2:
-
-                // Set param type
-                alertType = AlertType.WindSpeed;
-                break;
-
-            case 3:
-
-                // Set param type
-                alertType = AlertType.Pressure;
-                break;
-
-        }
-
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> parent) {
-
-    }
 }
