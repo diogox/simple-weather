@@ -1,39 +1,35 @@
 package com.diogox.simpleweather.MenuLeft.Fragments;
 
-import android.app.AlertDialog;
-import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.util.Log;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.diogox.simpleweather.Api.Models.Database.Alerts.Alert;
-import com.diogox.simpleweather.Api.Models.Database.Alerts.AlertType;
-import com.diogox.simpleweather.Api.Models.Database.AppDb;
-import com.diogox.simpleweather.Api.Models.Database.Cities.City;
-import com.diogox.simpleweather.MenuRight.CityViewModel;
+import com.diogox.simpleweather.MenuLeft.Fragments.Adapters.AlertAdapter;
+import com.diogox.simpleweather.MenuLeft.Fragments.Tasks.InsertAlertsTask;
 import com.diogox.simpleweather.NewAlertActivity;
 import com.diogox.simpleweather.R;
-import com.like.LikeButton;
 
+import java.util.LinkedList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicReference;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class AlertFragment extends Fragment {
+
+    @BindView(R.id.fa_new_alert) FloatingActionButton newAlert;
+
+    private RecyclerView recyclerView;
+    private AlertAdapter mAlertAdapter;
+    private List<Alert> mAlerts = new LinkedList<>();
 
     private Context context;
     private View mView;
@@ -52,9 +48,22 @@ public class AlertFragment extends Fragment {
 
         ButterKnife.bind(this, mView);
 
+        mAlertAdapter = new AlertAdapter(context, mAlerts);
+
+        recyclerView = mView.findViewById(R.id.alerts_list);
+        recyclerView.setAdapter(mAlertAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(context));
+
+        // Insert existing alerts
+        InsertAlertsTask insertAlertsTask = new InsertAlertsTask(context, mAlerts, mAlertAdapter);
+        insertAlertsTask.execute();
+
+        newAlert.setOnClickListener(v -> {
+            Intent i = new Intent(context, NewAlertActivity.class);
+            startActivity(i);
+        });
 
         return mView;
     }
-
 
 }
