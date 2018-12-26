@@ -22,6 +22,9 @@ import com.diogox.simpleweather.Api.Models.Database.Alerts.Alert;
 import com.diogox.simpleweather.Api.Models.Database.Alerts.AlertType;
 import com.diogox.simpleweather.Api.Models.Database.AppDb;
 import com.diogox.simpleweather.Api.Models.Database.Cities.City;
+import com.diogox.simpleweather.MenuLeft.Fragments.Adapters.AlertAdapter;
+import com.diogox.simpleweather.MenuLeft.Fragments.AlertFragment;
+import com.diogox.simpleweather.MenuLeft.Fragments.Tasks.NewAlertTask;
 import com.diogox.simpleweather.MenuRight.CityViewModel;
 
 import java.util.List;
@@ -36,6 +39,9 @@ public class NewAlertActivity extends AppCompatActivity implements AdapterView.O
     @BindView(R.id.minParamValue) EditText minParamValue;
     @BindView(R.id.maxParamValue) EditText maxParamValue;
     @BindView(R.id.button_create_alert) Button createAlert;
+
+    private List<Alert> alerts;
+    private AlertAdapter alertAdapter;
 
     private CityViewModel mCityViewModel;
 
@@ -56,6 +62,9 @@ public class NewAlertActivity extends AppCompatActivity implements AdapterView.O
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         ButterKnife.bind(NewAlertActivity.this);
+
+        alerts       = AlertFragment.mAlerts;
+        alertAdapter = AlertFragment.mAlertAdapter;
 
         chooseCity.setOnClickListener(this);
 
@@ -91,10 +100,12 @@ public class NewAlertActivity extends AppCompatActivity implements AdapterView.O
                     // Create alert
                     Alert alert = new Alert(citySelected, alertType, minValue, maxValue);
 
-                    // Add alert
-                    AppDb.getInstance(NewAlertActivity.this).alertDAO().insertAlert(alert);
-
-                    // TODO: Go back to list of alerts
+                    NewAlertTask newAlertTask = new NewAlertTask(
+                            NewAlertActivity.this,
+                            alerts,
+                            alertAdapter,
+                            alert);
+                    newAlertTask.execute();
 
                 } else {
 

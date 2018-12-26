@@ -28,8 +28,8 @@ public class AlertFragment extends Fragment {
     @BindView(R.id.fa_new_alert) FloatingActionButton newAlert;
 
     private RecyclerView recyclerView;
-    private AlertAdapter mAlertAdapter;
-    private List<Alert> mAlerts = new LinkedList<>();
+    public static AlertAdapter mAlertAdapter;
+    public static List<Alert> mAlerts = new LinkedList<>();
 
     private Context context;
     private View mView;
