@@ -1,25 +1,17 @@
 package com.diogox.simpleweather;
 
-import android.app.AlarmManager;
 import android.arch.lifecycle.LifecycleOwner;
-import android.content.Context;
 import android.content.SharedPreferences;
-import android.os.Build;
 import android.preference.PreferenceManager;
-import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.FragmentManager;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.AttributeSet;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -30,13 +22,14 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.view.Window;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.diogox.simpleweather.Api.GeocodeClient;
 import com.diogox.simpleweather.Api.Models.Database.Cities.City;
+import com.diogox.simpleweather.Api.Models.Geocode.GeocodeLocationResults;
 import com.diogox.simpleweather.Api.Models.Places.AutocompleteResultItem;
 import com.diogox.simpleweather.Api.Models.Places.AutocompleteResults;
 import com.diogox.simpleweather.Api.Models.Places.CityDetails;
@@ -44,9 +37,11 @@ import com.diogox.simpleweather.Api.PlacesClient;
 import com.diogox.simpleweather.MenuLeft.Fragments.AlertFragment;
 import com.diogox.simpleweather.MenuLeft.Fragments.CityViewFragment;
 import com.diogox.simpleweather.MenuLeft.Fragments.MapFragment;
+import com.diogox.simpleweather.MenuLeft.Location.GPSLocation;
 import com.diogox.simpleweather.MenuLeft.Preferences.SettingsPreference;
 import com.diogox.simpleweather.MenuRight.CityViewModel;
 import com.diogox.simpleweather.MenuRight.DrawerCityAdapter;
+import com.google.android.gms.maps.model.LatLng;
 import com.like.LikeButton;
 import com.like.OnLikeListener;
 
@@ -185,10 +180,7 @@ public class MainActivity extends AppCompatActivity
         fragmentManager.addOnBackStackChangedListener(onBackStackChangedListener);
 
         if (isFirstStartup) {
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.fragment_container, homeFragment);
-            fragmentTransaction.addToBackStack(null);
-            fragmentTransaction.commit();
+            showCurrentCityForecast();
             isFirstStartup = false;
         }
 
@@ -335,6 +327,83 @@ public class MainActivity extends AppCompatActivity
         Intent serviceIntent = new Intent(this, AlertService.class);
         stopService(serviceIntent);
     }
+
+    private void showCurrentCityForecast() {
+
+        GPSLocation gpsLocation = new GPSLocation(getApplicationContext());
+        final LatLng latLng;
+
+        if (gpsLocation.isCanGetLocation()) {
+
+            latLng = new LatLng(gpsLocation.getLatitude(), gpsLocation.getLongitude());
+
+        } else {
+
+            gpsLocation.showSettingsAlert();
+            latLng = new LatLng(gpsLocation.getLatitude(), gpsLocation.getLongitude());
+        }
+
+        GeocodeClient.getInstance()
+                .getCityByLocation(
+                    String.valueOf(latLng.latitude),
+                    String.valueOf(latLng.longitude)
+                )
+                .enqueue(new Callback<GeocodeLocationResults>() {
+                    @Override
+                    public void onResponse(Call<GeocodeLocationResults> call, Response<GeocodeLocationResults> response) {
+                        GeocodeLocationResults results = response.body();
+                        City currentCity = new City(results.getPlaceId(),
+                                results.getName(),
+                                "",
+                                String.valueOf(latLng.latitude),
+                                String.valueOf(latLng.longitude),
+                                ""
+                                );
+
+                        PlacesClient.getInstance()
+                                .getCityDetails(results.getPlaceId())
+                                .enqueue(new Callback<CityDetails>() {
+                                    @Override
+                                    public void onResponse(Call<CityDetails> call, Response<CityDetails> response) {
+                                        CityDetails cityDetails = response.body();
+                                        String photoUrl = cityDetails.getPhotoUrl();
+                                        currentCity.setPhotoUrl(photoUrl);
+
+                                        showForecast(currentCity);
+                                    }
+
+                                    @Override
+                                    public void onFailure(Call<CityDetails> call, Throwable t) {
+
+                                    }
+                                });
+                    }
+
+                    @Override
+                    public void onFailure(Call<GeocodeLocationResults> call, Throwable t) {
+
+                    }
+                });
+    }
+
+    private void showForecast(City city) {
+        CityViewFragment cityView = new CityViewFragment();
+
+        Bundle bundle = new Bundle();
+        bundle.putString("name", city.getName());
+        bundle.putString("lat", city.getLat());
+        bundle.putString("lon", city.getLon());
+        bundle.putString("imgUrl", city.getPhotoUrl());
+        cityView.setArguments(bundle);
+
+        // Start CityView fragment
+        FragmentManager manager = getSupportFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+        transaction.replace(R.id.fragment_container, cityView);
+        transaction.commit();
+        transaction.addToBackStack(null);
+    }
+
 
     @Override
     protected void onResume() {

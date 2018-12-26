@@ -3,6 +3,7 @@ package com.diogox.simpleweather.MenuLeft.Fragments;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,7 +54,6 @@ public class CityViewFragment extends Fragment {
     private Context context;
     private View mView;
     private String mCityName;
-    private GPSLocation gpsLocation;
 
     private String mLatitude;
     private String mLongitude;
@@ -86,16 +86,15 @@ public class CityViewFragment extends Fragment {
             mLongitude = args.getString("lon");
             mImageURL = args.getString("imgUrl");
 
-            getActualCity(mLatitude, mLongitude);
             getWeatherForecast(mLatitude, mLongitude);
+            getActualCity(mLatitude, mLongitude);
 
+            Glide.with(mView)
+                    .load(mImageURL)
+                    .into(mCityImg);
         } catch (NullPointerException npe) {
-            getLocation();
+            Log.wtf("CityView", "Couldn't retrieve arguments!");
         }
-
-        Glide.with(mView)
-                .load(mImageURL)
-                .into(mCityImg);
 
         return mView;
     }
@@ -104,9 +103,6 @@ public class CityViewFragment extends Fragment {
     public void onResume() {
         super.onResume();
 
-        if (mCityName == null) {
-            getLocation();
-        }
         Glide.with(mView)
                 .load(mImageURL)
                 .into(mCityImg);
@@ -120,80 +116,6 @@ public class CityViewFragment extends Fragment {
     }
     public String getCityLon() {
         return mLongitude;
-    }
-
-    /**
-     * Obter a localização atual
-     */
-    private void getLocation() {
-
-        gpsLocation = new GPSLocation(context);
-
-        if (gpsLocation.isCanGetLocation()) {
-
-            mLatitude  = String.valueOf( gpsLocation.getLatitude() );
-            mLongitude = String.valueOf( gpsLocation.getLongitude() );
-
-        } else {
-
-            gpsLocation.showSettingsAlert();
-
-            mLatitude  = String.valueOf( gpsLocation.getLatitude() );
-            mLongitude = String.valueOf( gpsLocation.getLongitude() );
-
-        }
-
-        System.out.println("********* LAT: " + mLatitude);
-        System.out.println("********* LON: " + mLongitude);
-
-        getActualCity(mLatitude, mLongitude);
-        getWeatherForecast(mLatitude, mLongitude);
-
-    }
-
-    /**
-     * Obter a cidade em função da localização atual
-     *
-     * @param latitude latitude
-     * @param longitude longitude
-     */
-    private void getActualCity(String latitude, String longitude) {
-
-        Call<CityWeather> call = WeatherClient.weatherService().getWeatherByCityCoordinates(
-                latitude,
-                longitude,
-                "pt",
-                WeatherService.MY_API_KEY
-        );
-        call.enqueue(new Callback<CityWeather>() {
-            @Override
-            public void onResponse(Call<CityWeather> call, Response<CityWeather> response) {
-
-                if (response.isSuccessful()) {
-
-                    CityWeather cityWeather = response.body();
-                    System.out.println("******** " + cityWeather.toString());
-
-                    // Disponibilizar as informações
-                    setCityInformation(cityWeather);
-                } else {
-
-                    System.out.println("************ " + response.code() + " **************");
-                    System.out.println("************ " + response.message() + " **************");
-
-                }
-
-                System.out.println("************ " + response.code() + " **************");
-            }
-
-            @Override
-            public void onFailure(Call<CityWeather> call, Throwable t) {
-
-                System.out.println("************ " + t.getCause() + " **************");
-                System.out.println("************ " + t.getMessage() + " **************");
-            }
-        });
-
     }
 
     /**
@@ -217,32 +139,16 @@ public class CityViewFragment extends Fragment {
                 if (response.isSuccessful()) {
 
                     CityForecast weather = response.body();
-                    System.out.println("******** " + weather.toString());
 
                     // Disponibilizar as informações
                     setCityInformationForecast(weather);
-                } else {
-
-                    System.out.println("************ " + response.code() + " **************");
-                    System.out.println("************ " + response.message() + " **************");
-
                 }
-
-                System.out.println("************ " + response.code() + " **************");
-
             }
 
             @Override
-            public void onFailure(Call<CityForecast> call, Throwable t) {
-                System.out.println("************ " + t.getCause() + " **************");
-                System.out.println("************ " + t.getMessage() + " **************");
-            }
+            public void onFailure(Call<CityForecast> call, Throwable t) { }
         });
 
-    }
-
-    public void updateInfo() {
-        mCityCurrentWeather.setText("BOA!");
     }
 
     /**
@@ -335,7 +241,7 @@ public class CityViewFragment extends Fragment {
                         int day = new Date().getDay();
                         int dayForecast = new Date(list.get(i).getDt() * 1000L).getDay();
 
-                        if ( (hour == progress) && (day == dayForecast) ) {
+                        if ((hour == progress) && (day == dayForecast)) {
                             forecast = list.get(i);
                             break;
                         }
@@ -344,7 +250,6 @@ public class CityViewFragment extends Fragment {
                     if (forecast != null)
                         setForecastInformation(forecast);
                 }
-
             }
 
             @Override
@@ -354,6 +259,38 @@ public class CityViewFragment extends Fragment {
 
             @Override
             public void getProgressOnFinally(BubbleSeekBar bubbleSeekBar, int progress, float progressFloat, boolean fromUser) {
+
+            }
+        });
+
+    }
+
+    private void getActualCity(String latitude, String longitude) {
+
+        Call<CityWeather> call = WeatherClient.weatherService().getWeatherByCityCoordinates(
+                latitude,
+                longitude,
+                "pt",
+                WeatherService.MY_API_KEY
+        );
+        call.enqueue(new Callback<CityWeather>() {
+            @Override
+            public void onResponse(Call<CityWeather> call, Response<CityWeather> response) {
+
+                if (response.isSuccessful()) {
+
+                    CityWeather cityWeather = response.body();
+
+                    // Disponibilizar as informações
+                    setCityInformation(cityWeather);
+                } else {
+
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<CityWeather> call, Throwable t) {
 
             }
         });
