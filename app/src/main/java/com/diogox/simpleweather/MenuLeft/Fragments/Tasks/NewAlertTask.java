@@ -13,14 +13,10 @@ import java.util.List;
 public class NewAlertTask extends AsyncTask<Void, Void, Void> {
 
     private Activity activity;
-    private List<Alert> alertList;
-    private AlertAdapter alertAdapter;
     private Alert newAlert;
 
-    public NewAlertTask(Activity activity, List<Alert> alerts, AlertAdapter adapter, Alert alert) {
+    public NewAlertTask(Activity activity, Alert alert) {
         this.activity = activity;
-        this.alertList = alerts;
-        this.alertAdapter = adapter;
         this.newAlert = alert;
     }
 
@@ -39,11 +35,6 @@ public class NewAlertTask extends AsyncTask<Void, Void, Void> {
 
     @Override
     protected void onPostExecute(Void aVoid) {
-
-        int index = alertList.size();
-
-        alertList.add(index, newAlert);
-        alertAdapter.notifyItemInserted(index);
 
         Toast.makeText(activity.getApplicationContext(), "Sucesso!!!", Toast.LENGTH_SHORT).show();
 

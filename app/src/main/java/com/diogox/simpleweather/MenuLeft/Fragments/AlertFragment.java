@@ -43,15 +43,21 @@ public class AlertFragment extends Fragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         mView = inflater.inflate(R.layout.fragment_alert, container, false);
 
         ButterKnife.bind(this, mView);
 
-        mAlertAdapter = new AlertAdapter(context, mAlerts);
-
         recyclerView = mView.findViewById(R.id.alerts_list);
+
+        mAlerts.clear();
+        mAlertAdapter = new AlertAdapter(context, mAlerts);
         recyclerView.setAdapter(mAlertAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
 
@@ -61,9 +67,7 @@ public class AlertFragment extends Fragment {
         );
         recyclerView.addItemDecoration(itemDecoration);
 
-        // Insert existing alerts
-        InsertAlertsTask insertAlertsTask = new InsertAlertsTask(context, mAlerts, mAlertAdapter);
-        insertAlertsTask.execute();
+        getAlerts();
 
         newAlert.setOnClickListener(v -> {
             Intent i = new Intent(context, NewAlertActivity.class);
@@ -71,6 +75,18 @@ public class AlertFragment extends Fragment {
         });
 
         return mView;
+    }
+
+    private void getAlerts() {
+
+        for (int i = 0; i < mAlerts.size(); i++) {
+            mAlerts.remove(i);
+            mAlertAdapter.notifyItemRemoved(i);
+        }
+
+        InsertAlertsTask insertAlertsTask = new InsertAlertsTask(context, mAlerts, mAlertAdapter);
+        insertAlertsTask.execute();
+
     }
 
 }

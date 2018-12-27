@@ -106,11 +106,7 @@ public class NewAlertActivity extends AppCompatActivity implements AdapterView.O
                         // Create alert
                         Alert alert = new Alert(citySelected, alertType, minValue, maxValue);
 
-                        NewAlertTask newAlertTask = new NewAlertTask(
-                                NewAlertActivity.this,
-                                alerts,
-                                alertAdapter,
-                                alert);
+                        NewAlertTask newAlertTask = new NewAlertTask(NewAlertActivity.this, alert);
                         newAlertTask.execute();
 
                     }

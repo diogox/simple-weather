@@ -46,6 +46,9 @@ public class InsertAlertsTask extends AsyncTask<Void, Void, Void> {
 
         }
 
+        System.out.println("XXXXXXXXXXXXXXXXX " + activeAlerts.size());
+        System.out.println("XXXXXXXXXXXXXXXXX " + alertList.size());
+
         if (alertList.isEmpty())
             Toast.makeText(context, "Não existem alertas definidos", Toast.LENGTH_SHORT).show();
     }
