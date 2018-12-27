@@ -97,15 +97,23 @@ public class NewAlertActivity extends AppCompatActivity implements AdapterView.O
 
                 if (citySelected != null) {
 
-                    // Create alert
-                    Alert alert = new Alert(citySelected, alertType, minValue, maxValue);
+                    if (minValue != null && maxValue < minValue) {
 
-                    NewAlertTask newAlertTask = new NewAlertTask(
-                            NewAlertActivity.this,
-                            alerts,
-                            alertAdapter,
-                            alert);
-                    newAlertTask.execute();
+                        maxParamValue.setError("Tem de ser maior que o valor mínimo");
+
+                    } else {
+
+                        // Create alert
+                        Alert alert = new Alert(citySelected, alertType, minValue, maxValue);
+
+                        NewAlertTask newAlertTask = new NewAlertTask(
+                                NewAlertActivity.this,
+                                alerts,
+                                alertAdapter,
+                                alert);
+                        newAlertTask.execute();
+
+                    }
 
                 } else {
 

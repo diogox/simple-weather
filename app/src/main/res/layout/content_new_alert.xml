@@ -114,7 +114,7 @@
                 android:layout_weight="1"
                 android:gravity="end"
                 android:padding="5dp"
-                android:text="Valor do mínimo: "
+                android:text="Valor mínimo: "
                 android:textAlignment="textEnd"
                 android:textSize="15dp" />
 
@@ -150,7 +150,7 @@
                 android:layout_weight="1"
                 android:gravity="end"
                 android:padding="5dp"
-                android:text="Valor do máximo: "
+                android:text="Valor máximo: "
                 android:textAlignment="textEnd"
                 android:textSize="15dp" />
 
