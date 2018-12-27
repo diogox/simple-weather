@@ -396,6 +396,8 @@ public class MainActivity extends AppCompatActivity
         bundle.putString("imgUrl", city.getPhotoUrl());
         cityView.setArguments(bundle);
 
+        mCurrentCityList.add(city);
+
         // Start CityView fragment
         FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
@@ -409,6 +411,8 @@ public class MainActivity extends AppCompatActivity
     protected void onResume() {
         super.onResume();
         getPreferences();
+
+        showCurrentCityForecast();
     }
 
     @Override
