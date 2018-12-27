@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -53,6 +54,12 @@ public class AlertFragment extends Fragment {
         recyclerView = mView.findViewById(R.id.alerts_list);
         recyclerView.setAdapter(mAlertAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
+
+        RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(
+                context,
+                DividerItemDecoration.VERTICAL
+        );
+        recyclerView.addItemDecoration(itemDecoration);
 
         // Insert existing alerts
         InsertAlertsTask insertAlertsTask = new InsertAlertsTask(context, mAlerts, mAlertAdapter);

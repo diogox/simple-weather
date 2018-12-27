@@ -6,9 +6,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.diogox.simpleweather.Api.Models.Database.Alerts.Alert;
+import com.diogox.simpleweather.MenuLeft.Fragments.Tasks.DeleteAlertTask;
 import com.diogox.simpleweather.R;
 
 import java.util.List;
@@ -32,14 +35,16 @@ public class AlertAdapter extends RecyclerView.Adapter<AlertAdapter.AlertViewHol
         protected TextView typeAlert;
         protected TextView minValue;
         protected TextView maxValue;
+        protected Button deleteAlert;
 
         protected AlertViewHolder(View itemView) {
             super(itemView);
 
-            nameCity  = itemView.findViewById(R.id.city_name_alert);
-            typeAlert = itemView.findViewById(R.id.type_alert);
-            minValue  = itemView.findViewById(R.id.min_value_alert);
-            maxValue  = itemView.findViewById(R.id.max_value_alert);
+            nameCity    = itemView.findViewById(R.id.city_name_alert);
+            typeAlert   = itemView.findViewById(R.id.type_alert);
+            minValue    = itemView.findViewById(R.id.min_value_alert);
+            maxValue    = itemView.findViewById(R.id.max_value_alert);
+            deleteAlert = itemView.findViewById(R.id.button_delete_alert);
         }
 
     }
@@ -74,6 +79,14 @@ public class AlertAdapter extends RecyclerView.Adapter<AlertAdapter.AlertViewHol
 
         TextView max = alertViewHolder.maxValue;
         max.setText(String.valueOf(alert.getMaxValueTrigger()));
+
+        Button delete = alertViewHolder.deleteAlert;
+        delete.setOnClickListener(v -> {
+
+            DeleteAlertTask deleteAlertTask = new DeleteAlertTask(mContext, mAlerts, adapter, alert);
+            deleteAlertTask.execute();
+
+        });
     }
 
     @Override
