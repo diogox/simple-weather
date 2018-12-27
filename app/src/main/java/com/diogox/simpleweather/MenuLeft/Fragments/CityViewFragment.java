@@ -1,7 +1,9 @@
 package com.diogox.simpleweather.MenuLeft.Fragments;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,8 +20,6 @@ import com.diogox.simpleweather.Api.Models.Weather.Forecast.CityForecast;
 import com.diogox.simpleweather.Api.Models.Weather.Forecast.WeatherForecast;
 import com.diogox.simpleweather.Api.Services.WeatherService;
 import com.diogox.simpleweather.Api.WeatherClient;
-import com.diogox.simpleweather.MenuLeft.Location.GPSLocation;
-import com.diogox.simpleweather.MenuLeft.Preferences.SettingsPreference;
 import com.diogox.simpleweather.R;
 import com.xw.repo.BubbleSeekBar;
 
@@ -60,6 +60,8 @@ public class CityViewFragment extends Fragment {
     private String mLongitude;
     private String mImageURL;
 
+    private SharedPreferences mPreferences;
+
     private int actualHour;
 
     @Override
@@ -75,6 +77,8 @@ public class CityViewFragment extends Fragment {
         mView = inflater.inflate(R.layout.fragment_home, container, false);
 
         ButterKnife.bind(this, mView);
+
+        mPreferences = PreferenceManager.getDefaultSharedPreferences(context);
 
         actualHour = new Date().getHours();
 
@@ -105,6 +109,8 @@ public class CityViewFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+
+        mPreferences = PreferenceManager.getDefaultSharedPreferences(context);
 
         Glide.with(mView)
                 .load(mImageURL)
@@ -166,7 +172,7 @@ public class CityViewFragment extends Fragment {
 
         mCityCurrentWeather.setText(cityWeather.getWeather().get(0).getDescription());
 
-        switch (SettingsPreference.temperatureUnit) {
+        switch (mPreferences.getString("si_temperature", "K")) {
 
             case "C":
                 float tempMinC = cityWeather.getMain().getTemp_min() - 273.15f;
@@ -203,7 +209,7 @@ public class CityViewFragment extends Fragment {
 
         mCityPressure.setText(String.format("%.2f", cityWeather.getMain().getPressure()));
 
-        switch (SettingsPreference.windUnit) {
+        switch (mPreferences.getString("si_velocity", "MS")) {
 
             case "KMH":
                 float speedKMH = cityWeather.getWind().getSpeed() * 3.6f;
@@ -320,7 +326,7 @@ public class CityViewFragment extends Fragment {
 
         mCityCurrentWeather.setText(forecast.getWeather().get(0).getDescription());
 
-        switch (SettingsPreference.temperatureUnit) {
+        switch (mPreferences.getString("si_temperature", "K")) {
 
             case "C":
                 float tempMinC = forecast.getMain().getTemp_min() - 273.15f;
@@ -351,7 +357,7 @@ public class CityViewFragment extends Fragment {
 
         mCityPressure.setText(String.format("%.2f", forecast.getMain().getPressure()));
 
-        switch (SettingsPreference.windUnit) {
+        switch (mPreferences.getString("si_velocity", "MS")) {
 
             case "KMH":
                 float speedKMH = forecast.getWind().getSpeed() * 3.6f;

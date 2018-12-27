@@ -1,27 +1,25 @@
 package com.diogox.simpleweather;
 
 import android.arch.lifecycle.LifecycleOwner;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
-import android.support.annotation.NonNull;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.app.FragmentManager;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.view.KeyEvent;
-import android.view.View;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -38,7 +36,6 @@ import com.diogox.simpleweather.MenuLeft.Fragments.AlertFragment;
 import com.diogox.simpleweather.MenuLeft.Fragments.CityViewFragment;
 import com.diogox.simpleweather.MenuLeft.Fragments.MapFragment;
 import com.diogox.simpleweather.MenuLeft.Location.GPSLocation;
-import com.diogox.simpleweather.MenuLeft.Preferences.SettingsPreference;
 import com.diogox.simpleweather.MenuRight.CityViewModel;
 import com.diogox.simpleweather.MenuRight.DrawerCityAdapter;
 import com.google.android.gms.maps.model.LatLng;
@@ -78,7 +75,6 @@ public class MainActivity extends AppCompatActivity
     private String mCurrentCityLat;
     private String mCurrentCityLon;
 
-    private SharedPreferences mPreferences;
     private static boolean isFirstStartup = true;
 
     @Override
@@ -89,7 +85,6 @@ public class MainActivity extends AppCompatActivity
 
         setSupportActionBar(mToolbar);
 
-        getPreferences();
         mCityName = mToolbar.findViewById(R.id.appBarCityName);
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -410,7 +405,6 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onResume() {
         super.onResume();
-        getPreferences();
 
         showCurrentCityForecast();
     }
@@ -498,13 +492,4 @@ public class MainActivity extends AppCompatActivity
         mDrawer.openDrawer(GravityCompat.END);
     }
 
-    /**
-     * Preferences
-     */
-    private void getPreferences() {
-        mPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-
-        SettingsPreference.temperatureUnit = mPreferences.getString("si_temperature", "K");
-        SettingsPreference.windUnit = mPreferences.getString("si_velocity", "MS");
-    }
 }
