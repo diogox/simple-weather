@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.diogox.simpleweather.Api.Models.Weather.City.CityWeather;
@@ -59,6 +60,8 @@ public class CityViewFragment extends Fragment {
     private String mLongitude;
     private String mImageURL;
 
+    private int actualHour;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,7 +76,7 @@ public class CityViewFragment extends Fragment {
 
         ButterKnife.bind(this, mView);
 
-        int actualHour = new Date().getHours();
+        actualHour = new Date().getHours();
 
         mCityInfoTimeBar.setProgress(actualHour);
         mCityInfoTimeBar.setEnabled(false);
@@ -219,7 +222,6 @@ public class CityViewFragment extends Fragment {
 
     private void setCityInformationForecast(CityForecast weather) {
 
-        int actualHour = new Date().getHours();
         List<WeatherForecast> list = weather.getList();
 
         mCityInfoTimeBar.setEnabled(true);
@@ -233,22 +235,34 @@ public class CityViewFragment extends Fragment {
 
                 } else {
 
-                    WeatherForecast forecast = null;
+                    if (progress < actualHour) {
 
-                    for (int i = 0; i < list.size(); i++) {
-                        int hour = new Date(list.get(i).getDt() * 1000L).getHours();
+                        Toast.makeText(
+                                context,
+                                "Não há previsões para as horas anteriores",
+                                Toast.LENGTH_SHORT).show();
+                        mCityInfoTimeBar.setProgress(actualHour);
 
-                        int day = new Date().getDay();
-                        int dayForecast = new Date(list.get(i).getDt() * 1000L).getDay();
+                    } else {
 
-                        if ((hour == progress) && (day == dayForecast)) {
-                            forecast = list.get(i);
-                            break;
+                        WeatherForecast forecast = null;
+
+                        for (int i = 0; i < list.size(); i++) {
+                            int hour = new Date(list.get(i).getDt() * 1000L).getHours();
+
+                            int day = new Date().getDay();
+                            int dayForecast = new Date(list.get(i).getDt() * 1000L).getDay();
+
+                            if ((hour == progress) && (day == dayForecast)) {
+                                forecast = list.get(i);
+                                break;
+                            }
                         }
+
+                        if (forecast != null)
+                            setForecastInformation(forecast);
                     }
 
-                    if (forecast != null)
-                        setForecastInformation(forecast);
                 }
             }
 
