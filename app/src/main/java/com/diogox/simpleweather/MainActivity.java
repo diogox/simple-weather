@@ -421,7 +421,7 @@ public class MainActivity extends AppCompatActivity
             mDrawer.closeDrawer(GravityCompat.END);
         } else {
 
-            super.onBackPressed();
+            //super.onBackPressed();
         }
     }
 
