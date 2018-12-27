@@ -25,7 +25,7 @@ public class CityDetails {
     }
 
     public String getPhotoUrl() {
-        if (result.photos != null) {
+        if (result != null && result.photos != null) {
             String photoReference = result.photos.get(0).photo_reference;
             return "https://maps.googleapis.com/maps/api/place/photo?photoreference=" + photoReference + "&key=" + PlacesClient.API_KEY + "&maxheight=600&maxwidth=600";
         }
