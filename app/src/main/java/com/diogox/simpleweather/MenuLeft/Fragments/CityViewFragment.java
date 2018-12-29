@@ -3,6 +3,7 @@ package com.diogox.simpleweather.MenuLeft.Fragments;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.diogox.simpleweather.Api.Models.Database.Cities.City;
 import com.diogox.simpleweather.Api.Models.Weather.City.CityWeather;
 import com.diogox.simpleweather.Api.Models.Weather.Forecast.CityForecast;
 import com.diogox.simpleweather.Api.Models.Weather.Forecast.WeatherForecast;
@@ -23,12 +25,15 @@ import com.diogox.simpleweather.MenuLeft.Preferences.SettingsPreference;
 import com.diogox.simpleweather.R;
 import com.xw.repo.BubbleSeekBar;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -367,6 +372,29 @@ public class CityViewFragment extends Fragment {
 
         mCityHumidityValue.setText(String.format("%.2f", forecast.getMain().getHumidity()));
 
+    }
+
+    @OnClick(R.id.alertCityBtn)
+    public void onAlertCityBtnPressed() {
+        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+        AlertFragment alertFragment = new AlertFragment();
+        fragmentTransaction.replace(R.id.fragment_container, alertFragment);
+        fragmentTransaction.commit();
+    }
+
+    @OnClick(R.id.cityMapBtn)
+    public void onMapBtnPressed() {
+        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+        Bundle bundle = new Bundle();
+        bundle.putString("lat", mLatitude);
+        bundle.putString("lon", mLongitude);
+        bundle.putSerializable("cityList", (Serializable) new ArrayList<City>());
+
+        MapFragment mapFragment = new MapFragment();
+        mapFragment.setArguments(bundle);
+
+        fragmentTransaction.replace(R.id.fragment_container, mapFragment);
+        fragmentTransaction.commit();
     }
 
     @Override
